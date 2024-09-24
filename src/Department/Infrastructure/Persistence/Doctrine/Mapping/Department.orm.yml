@@ -1,0 +1,52 @@
+TFM\HolidaysManagement\Department\Domain\Model\Aggregate\Department:
+  type: entity
+  table: department
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 150
+      nullable: false
+    description:
+      column: description
+      type: string
+      length: 255
+      nullable: true
+    phoneNumber:
+      column: phone_number
+      type: string
+      length: 20
+      nullable: false
+    phoneExtension:
+      column: phone_extension
+      type: integer
+      length: 20
+      nullable: true
+    blocked:
+      column: blocked
+      type: boolean
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+
+  manyToOne:
+    workPlace:
+      targetEntity: TFM\HolidaysManagement\WorkPlace\Domain\Model\Aggregate\WorkPlace
+      joinColumn:
+        name: work_place_id
+        referencedColumnName: uuid
+  OneToMany:
+    users:
+      targetEntity: TFM\HolidaysManagement\User\Domain\Model\Aggregate\User
+      inversedBy: departments
+
+

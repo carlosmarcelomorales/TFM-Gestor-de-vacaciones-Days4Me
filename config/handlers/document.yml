@@ -1,0 +1,31 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  document.document_repository:
+    class: TFM\HolidaysManagement\Document\Infrastructure\Repository\DocumentDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  document.upload_document_handler:
+    class: TFM\HolidaysManagement\Document\Application\Upload\UploadDocument
+    arguments:
+      - "@document.document_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Document\Application\Upload\UploadDocumentRequest }
+
+  document.add_document_handler:
+    class: TFM\HolidaysManagement\Document\Application\Save\SaveDocument
+    arguments:
+      - "@document.document_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Document\Application\Save\SaveDocumentRequest }
+
+
+  document.get_json_format_document_handler:
+    class: TFM\HolidaysManagement\Document\Application\Api\GetApiDocuments
+    arguments:
+      - "@document.document_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Document\Application\Api\GetApiDocumentsRequest }

@@ -1,0 +1,42 @@
+{% extends 'base_logged.html.twig' %}
+
+{% block title %}Companies{% endblock %}
+{% block page_header %}
+
+{% endblock %}
+
+{% block page_body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <p><br></p>
+                <h3 class="h3 mb-3 font-weight-normal">Type Request</h3><hr>
+
+                <div class="form-group">
+                    {{ form_start(typeRequestForm,{'attr': { 'enctype':'multipart/form-data','method':'post','name':'typeRequestForm', 'id': 'typeRequestForm' }}) }}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div>
+                                {{ form_row(typeRequestForm.name,{'label':'Name','attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <p><br></p>
+                    <div class="row">
+                        <div class="col-2">
+                            {{ form_row(typeRequestForm.save,{'label':'Save','attr': {'class': 'btn btn-primary btn-block'}}) }}
+                        </div>
+                        <div class="col-2">
+                            {{ form_row(typeRequestForm.cancel,{'label':'Cancel','attr': {'class': 'btn btn-primary btn-block'}}) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(typeRequestForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

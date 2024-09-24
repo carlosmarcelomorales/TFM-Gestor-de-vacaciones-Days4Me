@@ -1,0 +1,60 @@
+TFM\HolidaysManagement\Request\Domain\Model\Aggregate\Request:
+  type: entity
+  table: request
+
+  id:
+    id:
+      column: uuid
+      type: uuid
+
+  fields:
+    description:
+      column: description
+      type: string
+      length: 255
+      nulable: false
+    requestPeriodStart:
+      column: request_period_start
+      type: datetime_immutable
+      nullable: false
+    requestPeriodEnd:
+      column: request_period_end
+      type: datetime_immutable
+      nullable: false
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    users:
+      targetEntity: TFM\HolidaysManagement\User\Domain\Model\Aggregate\User
+      joinColumn:
+        name: user_id
+        referencedColumnName: uuid
+    statusRequest:
+      targetEntity: TFM\HolidaysManagement\StatusRequest\Domain\Model\Aggregate\StatusRequest
+      inversedBy: requests
+      joinColumn:
+        name: status_request_id
+        referencedColumnName: uuid
+    typesRequest:
+      targetEntity: TFM\HolidaysManagement\TypeRequest\Domain\Model\Aggregate\TypeRequest
+      inversedBy: requests
+      joinColumn:
+        name: type_request_id
+        referencedColumnName: uuid
+  manyToMany:
+    documents:
+      targetEntity: TFM\HolidaysManagement\Document\Domain\Model\Aggregate\Document
+      joinTable:
+        name: requests_documents
+        joinColumns:
+          request_id:
+            referencedColumnName: uuid
+        inverseJoinColumns:
+          document_id:
+            referencedColumnName: uuid

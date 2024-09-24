@@ -1,0 +1,39 @@
+TFM\HolidaysManagement\Holiday\Domain\Model\Aggregate\Holiday:
+  type: entity
+  table: holiday
+
+  id:
+    id:
+      column: uuid
+      type: uuid
+
+  fields:
+    holidayName:
+      column: holiday_name
+      type: string
+      length: 150
+      nulable: false
+    startDay:
+      column: start_day
+      type: datetime_immutable
+      nullable: false
+    endDay:
+      column: end_day
+      type: datetime_immutable
+      nullable: false
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+
+  manyToOne:
+    workPlaces:
+      targetEntity: TFM\HolidaysManagement\WorkPlace\Domain\Model\Aggregate\WorkPlace
+      inversedBy: holidays
+      joinColumn:
+        name: work_place_id
+        referencedColumnName: uuid

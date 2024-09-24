@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - php-fpm
+    ports:
+      - 8080:80
+      - 443:443
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+        read_only: false
+      - ./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./etc/nginx:/etc/nginx/certs
+    working_dir: /app
+  php-fpm:
+    build: ./ops/php-fpm
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
+        read_only: false
+    working_dir: /app
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:

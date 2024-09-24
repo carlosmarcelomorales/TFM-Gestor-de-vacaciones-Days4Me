@@ -1,0 +1,45 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  town.town_repository:
+    class: TFM\HolidaysManagement\Country\Infrastructure\Repository\DoctrineTownRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  town.town_handler:
+    class: TFM\HolidaysManagement\Country\Application\Town\GetTown
+    arguments:
+      - "@town.town_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Town\GetTownRequest }
+
+  town.towns_handler:
+    class: TFM\HolidaysManagement\Country\Application\Town\GetTowns
+    arguments:
+      - "@town.town_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Town\GetTownsRequest }
+
+  town.search_town:
+    class: TFM\HolidaysManagement\Country\Application\Town\Search\SearchTown
+    arguments:
+      - "@town.town_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Town\Search\SearchTownRequest }
+
+
+  town.view_towns_handler:
+    class: TFM\HolidaysManagement\Country\Application\Town\ViewTowns
+    arguments:
+      - "@town.town_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Town\ViewTownsRequest }
+
+  town.get_towns:
+    class: TFM\HolidaysManagement\Country\Application\Town\Search\GetTowns
+    arguments:
+      - "@town.town_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Town\Search\GetTownsRequest }

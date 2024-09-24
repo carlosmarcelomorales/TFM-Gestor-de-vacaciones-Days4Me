@@ -1,0 +1,12 @@
+{% extends 'mail/email/base.html.twig' %}
+
+{% block body %}
+    <h2 class="text-center">{% trans %}email.request.subject{% endtrans %}</h2>
+    <p>{% trans %}email.hello{% endtrans %} {{ emailUser }}</p>
+    <p>{% trans %}email.request.content{% endtrans %}</p>
+    <p>{% trans %}request.statusRequest{% endtrans %} <b> {{ statusRequest }}</b></p>
+    <p>{% trans %}email.days.available{% endtrans %} {{ availableDays }}</p>
+    <p>{% trans %}email.days.accumulated{% endtrans %} {{ accumulateDays }}</p>
+    <p>{% trans %}email.regards{% endtrans %}</p>
+    <p>{% trans %}email.team{% endtrans %}</p>
+{% endblock %}

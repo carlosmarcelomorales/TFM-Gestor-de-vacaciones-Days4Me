@@ -1,0 +1,23 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  region.region_repository:
+    class: TFM\HolidaysManagement\Country\Infrastructure\Repository\DoctrineRegionRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+
+  region.region_handler:
+    class: TFM\HolidaysManagement\Country\Application\Region\GetRegion
+    arguments:
+      - "@region.region_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Region\GetRegionRequest }
+
+  region.regions_handler:
+    class: TFM\HolidaysManagement\Country\Application\Region\GetRegions
+    arguments:
+      - "@region.region_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Region\GetRegionsRequest }

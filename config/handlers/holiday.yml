@@ -1,0 +1,51 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  holiday.holiday_repository:
+    class: TFM\HolidaysManagement\Holiday\Infrastructure\Repository\HolidayDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  holiday.add_holiday_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Create\CreateHoliday
+    arguments:
+      - "@holiday.holiday_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Create\CreateHolidayRequest }
+
+  holiday.find_holiday_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Get\GetHoliday
+    arguments:
+      - '@holiday.holiday_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Get\GetHolidayRequest }
+
+  holiday.update_holiday_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Update\UpdateHoliday
+    arguments:
+      - '@holiday.holiday_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Update\UpdateHolidayRequest }
+
+  holiday.get_holiday_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Get\GetHolidays
+    arguments:
+      - '@holiday.holiday_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Get\GetHolidaysRequest }
+
+  holiday.get_holiday_by_range_request_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Get\GetHolidaysByRange
+    arguments:
+      - '@holiday.holiday_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Get\GetHolidaysByRangeRequest }
+
+  holiday.get_json_format_holiday_handler:
+    class: TFM\HolidaysManagement\Holiday\Application\Api\GetApiHolidays
+    arguments:
+      - '@holiday.holiday_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Holiday\Application\Api\GetApiHolidaysRequest }

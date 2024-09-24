@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}404{% endblock %}
+
+{% block body %}
+
+    <style>
+        html {
+            background: url({{ absolute_url(asset('dist/404.png')) }}) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+{% endblock %}

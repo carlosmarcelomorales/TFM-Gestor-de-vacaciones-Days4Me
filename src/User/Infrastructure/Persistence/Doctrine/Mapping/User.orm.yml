@@ -1,0 +1,142 @@
+TFM\HolidaysManagement\User\Domain\Model\Aggregate\User:
+  type: entity
+  table: user
+
+  id:
+    id:
+      column: uuid
+      type: uuid
+
+  fields:
+    name:
+      column: name
+      type: string
+      length: 100
+      nulable: false
+    lastName:
+      column: lastname
+      type: string
+      length: 100
+      nulable: false
+    dni:
+      column: dni
+      type: string
+      length: 20
+      nulable: false
+    availableDays:
+      column: available_days
+      type: integer
+      default: 0
+    accumulatedDays:
+      column: accumulated_days
+      type: integer
+      default: 0
+    socialSecurityNumber:
+      column: social_security_number
+      type: string
+      nulable: true
+    phoneNumber:
+      column: phone_number
+      type: string
+      length: 20
+      nulable: false
+    emailAddress:
+      column: email_address
+      type: string
+      length: 100
+      nulable: false
+      unique: true
+    password:
+      column: password
+      type: string
+      length: 100
+      nulable: false
+    incorporationDate:
+      column: incorporation_date
+      type: datetime_immutable
+      nulable: false
+    streetName:
+      column: street_name
+      type: string
+      length: 100
+      nullable: false
+    number:
+      column: number
+      type: integer
+      nullable: true
+    floor:
+      column: floor
+      type: string
+      length: 20
+      nullable: true
+    blocked:
+      column: blocked
+      type: boolean
+    tokenRecovery:
+      column: token_recovery
+      type: string
+      length: 255
+      nullable: true
+      unique: true
+    tokenRecoveryValidator:
+      column: token_recovery_validator
+      type: string
+      length: 255
+      nullable: true
+      unique: true
+    tokenRecoveryExpirationDate:
+      column: token_recovery_expiration_date
+      type: datetime_immutable
+      nullable: true
+      unique: false
+    blockedOn:
+      column: blocked_on
+      type: datetime_immutable
+      nullable: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    postalCodes:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\PostalCode\PostalCode
+      joinColumn:
+        name: postal_code_id
+        referencedColumnName: uuid
+    departments:
+      targetEntity: TFM\HolidaysManagement\Department\Domain\Model\Aggregate\Department
+      joinColumn:
+        name: department_id
+        referencedColumnName: uuid
+    workPositions:
+      targetEntity: TFM\HolidaysManagement\WorkPosition\Domain\Model\Aggregate\WorkPosition
+      joinColumn:
+        name: work_position_id
+        referencedColumnName: uuid
+    companies:
+      targetEntity: TFM\HolidaysManagement\Company\Domain\Model\Aggregate\Company
+      joinColumn:
+        name: company_id
+        referencedColumnName: uuid
+  OneToMany:
+    requests:
+      targetEntity: TFM\HolidaysManagement\Request\Domain\Model\Aggregate\Request
+      inversedBy: users
+  manyToMany:
+    roles:
+      targetEntity: TFM\HolidaysManagement\Role\Domain\Model\Aggregate\Role
+      orderBy: { 'name': 'ASC' }
+      joinTable:
+        name: user_roles
+        joinColumns:
+          user_id:
+            referencedColumnName: uuid
+        inverseJoinColumns:
+          role_id:
+            referencedColumnName: uuid
+
+

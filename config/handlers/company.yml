@@ -1,0 +1,47 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  company.company_repository:
+    class: TFM\HolidaysManagement\Company\Infrastructure\Persistence\Doctrine\Repository\DoctrineCompanyRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  company.add_company_handler:
+    class: TFM\HolidaysManagement\Company\Application\Create\CreateCompany
+    arguments:
+      - '@company.company_repository'
+      - '@shared.messenger_domain_event_bus'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Company\Application\Create\CreateCompanyRequest }
+
+  company.find_company_handler:
+    class: TFM\HolidaysManagement\Company\Application\Get\GetCompany
+    arguments:
+      - '@company.company_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Company\Application\Get\GetCompanyRequest }
+
+
+  company.update_company_handler:
+    class: TFM\HolidaysManagement\Company\Application\Update\UpdateCompany
+    arguments:
+      - '@company.company_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Company\Application\Update\UpdateCompanyRequest }
+
+  company.get_companies_handler:
+    class: TFM\HolidaysManagement\Company\Application\Get\GetCompanies
+    arguments:
+      - '@company.company_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Company\Application\Get\GetCompaniesRequest }
+
+
+  company.get_json_format_company_handler:
+    class: TFM\HolidaysManagement\Company\Application\Api\GetApiCompanies
+    arguments:
+      - '@company.company_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Company\Application\Api\GetApiCompaniesRequest }

@@ -1,0 +1,344 @@
+homepage:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /login
+    permanent: true
+list_department:
+  path: /department/list
+  controller: TFM\HolidaysManagement\Department\Infrastructure\Controller\DepartmentController
+
+add_department:
+  path: /department/add
+  controller: TFM\HolidaysManagement\Department\Infrastructure\Controller\DepartmentController::addDepartment
+
+save_department:
+  path: /department/save
+  controller: TFM\HolidaysManagement\Department\Infrastructure\Controller\DepartmentController::saveNewDepartment
+  methods: [ POST ]
+
+edit_department:
+  path: /department/edit/{departmentId}/
+  controller: TFM\HolidaysManagement\Department\Infrastructure\Controller\DepartmentController::editDepartment
+  methods: [ GET ]
+
+update_department:
+  path: /department/update
+  controller: TFM\HolidaysManagement\Department\Infrastructure\Controller\DepartmentController::updateDepartment
+  methods: [ POST ]
+
+list_workPlace:
+  path: /workplace/list
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController
+
+add_workPlace:
+  path: /workplace/add
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController::addWorkPlace
+
+save_workPlace:
+  path: /workplace/save
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController::saveNewWorkPlace
+
+edit_workPlace:
+  path: /workplace/edit/{workPlaceId}/
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController::editWorkPlace
+  methods: [ GET ]
+
+update_workPlace:
+  path: /workplace/update/
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController::updateWorkPlace
+  methods: [ POST ]
+
+town_postal_code:
+  path: /town_postal_code
+  controller: TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\WorkPlaceController::townByPostalCode
+
+list_request:
+  path: /request/list
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController
+
+add_request:
+  path: /request/add
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController::addRequest
+
+save_request:
+  path: /request/save
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController::saveNewRequest
+
+edit_request:
+  path: /request/edit/{requestId}/
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController::editRequest
+  methods: [ GET ]
+
+update_request:
+  path: /request/update/
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController::updateRequest
+  methods: [ POST ]
+
+management_request:
+  path: /request/management/
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestManagementController
+  methods: [ GET ]
+
+edit_management_request:
+  path: /request/management/{requestId}/
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestManagementController::edit
+  methods: [ GET ]
+
+update_management_request:
+  path: /request/management/update/
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestManagementController::update
+  methods: [ POST ]
+
+list_holiday:
+  path: /holiday/list
+  controller: TFM\HolidaysManagement\Holiday\Infrastructure\Controller\HolidayController
+
+add_holiday:
+  path: /holiday/add
+  controller: TFM\HolidaysManagement\Holiday\Infrastructure\Controller\HolidayController::addHoliday
+
+save_holiday:
+  path: /holiday/save
+  controller: TFM\HolidaysManagement\Holiday\Infrastructure\Controller\HolidayController::saveNewHoliday
+  methods: [ POST ]
+
+edit_holiday:
+  path: /holiday/edit/{holidayId}/
+  controller: TFM\HolidaysManagement\Holiday\Infrastructure\Controller\HolidayController::editHoliday
+  methods: [ GET ]
+
+update_holiday:
+  path: /holiday/update/
+  controller: TFM\HolidaysManagement\Holiday\Infrastructure\Controller\HolidayController::updateHoliday
+  methods: [ POST ]
+
+list_workPosition:
+  path: /workposition/list
+  controller: TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\WorkPositionController
+
+add_workPosition:
+  path: /workposition/add
+  controller: TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\WorkPositionController::addWorkPosition
+
+save_workPosition:
+  path: /workposition/save
+  controller: TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\WorkPositionController::saveNewWorkPosition
+  methods: [ POST ]
+
+edit_workPosition:
+  path: /workposition/edit/{workPositionId}/
+  controller: TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\WorkPositionController::editWorkPosition
+  methods: [ GET ]
+
+update_workPosition:
+  path: /workposition/update/
+  controller: TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\WorkPositionController::updateWorkPosition
+  methods: [ POST ]
+
+add_company:
+  path: /company/add
+  controller: TFM\HolidaysManagement\Company\Infrastructure\Controller\CompanyController::add
+
+save_company:
+  path: /company/save
+  controller: TFM\HolidaysManagement\Company\Infrastructure\Controller\CompanyController::save
+  methods: [ POST ]
+
+edit_company:
+  path: /company/edit/{companyId}/
+  controller: TFM\HolidaysManagement\Company\Infrastructure\Controller\CompanyController::edit
+  methods: [ GET ]
+
+list_company:
+  path: /company/list
+  controller: TFM\HolidaysManagement\Company\Infrastructure\Controller\CompanyController
+
+update_company:
+  path: /company/update/
+  controller: TFM\HolidaysManagement\Company\Infrastructure\Controller\CompanyController::update
+  methods: [ POST ]
+
+
+new_user:
+  path: /user/add
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\UserController::add
+
+save_user:
+  path: /user/save
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\UserController::save
+
+list_user:
+  path: /user/list
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\UserController
+
+edit_user:
+  path: /user/edit/{userId}/
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\UserController::edit
+
+update_user:
+  path: /user/update
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\UserController::update
+
+profile:
+  path: /profile
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\ProfileController
+
+save_profile:
+  path: /profile/save
+  controller: TFM\HolidaysManagement\User\Infrastructure\Controller\ProfileController::save
+  methods: [ POST ]
+
+#-----------------------------------Genéricos
+
+dashboard:
+  path: /dashboard
+  controller: TFM\HolidaysManagement\Dashboard\Infrastructure\Controller\DashboardController
+
+ui_login:
+  path: /login
+  controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\SecurityController::login
+
+ui_logout:
+  path: /logout
+  controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\SecurityController::logout
+
+ui_register:
+  path: /register
+  controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\SecurityController::register
+
+ui_create:
+  path: /create
+  controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\SecurityController::create
+
+ui_request_token:
+  path: /password/recovery/
+  defaults: { _controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\RequestTokenController }
+  methods: [ GET ]
+
+ui_request_token_request:
+  path: /password/request/
+  defaults: { _controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\RequestTokenController:request }
+  methods: [ POST ]
+
+ui_restore_password:
+  path: /password/restore/{token}/
+  defaults: { _controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\RestorePasswordController }
+  methods: [ GET ]
+
+ui_restore_password_request:
+  path: /password/recovery/{token}/
+  defaults: { _controller: TFM\HolidaysManagement\User\Infrastructure\Framework\Security\RestorePasswordController:request }
+
+ui_user_profile_edit:
+  path: /user/list
+
+#--------------------------------------Countries/regions/towns/postal-codes----------------------------
+
+ui_ajax_territory_countries:
+  path: /countries/
+  controller: TFM\HolidaysManagement\Country\Infrastructure\Controller\CountryController::countries
+  options:
+    expose: true
+
+ui_ajax_territory_regions:
+  path: /regions/
+  controller: TFM\HolidaysManagement\Country\Infrastructure\Controller\CountryController::regions
+  options:
+    expose: true
+
+ui_ajax_territory_towns:
+  path: /towns/
+  controller: TFM\HolidaysManagement\Country\Infrastructure\Controller\CountryController::towns
+  options:
+    expose: true
+
+ui_ajax_territory_postal_codes:
+  path: /postal-codes/
+  controller: TFM\HolidaysManagement\Country\Infrastructure\Controller\CountryController::postalCodes
+  options:
+    expose: true
+
+
+#--------------------------------------Calendar-------------------------------------------------------
+
+calendar:
+  path: /calendar
+  controller: TFM\HolidaysManagement\Calendar\Infrastructure\Controller\CalendarController
+
+save_request_calendar:
+  path: /save_request_calendar
+  controller: TFM\HolidaysManagement\Request\Infrastructure\Controller\RequestController::saveRequestCalendar
+
+ajax_get_request_by_user:
+  path: /get_requests_by_user
+  controller: TFM\HolidaysManagement\Calendar\Infrastructure\Controller\CalendarController::getRequestsByUser
+
+ajax_get_request_by_type_request:
+  path: /get_requests_by_type_request
+  controller: TFM\HolidaysManagement\Calendar\Infrastructure\Controller\CalendarController::getRequestsByTypeRequest
+
+ajax_get_request_by_department:
+  path: /get_requests_by_department
+  controller: TFM\HolidaysManagement\Calendar\Infrastructure\Controller\CalendarController::getRequestsByDepartment
+
+#---------------------------------------------------------Api---------------------------------------------------
+company_api_controllers:
+  resource: './Company/Infrastructure/Controller/Api'
+  prefix: /api/companies/
+
+departments_api_controllers:
+  resource: './Department/Infrastructure/Controller/Api'
+  prefix: /api/departments/
+
+documents_api_controllers:
+  resource: './Document/Infrastructure/Controller/Api'
+  prefix: /api/documents/
+
+holidays_api_controllers:
+  resource: './Holiday/Infrastructure/Controller/Api'
+  prefix: /api/holidays/
+
+requests_api_controllers:
+  resource: './Request/Infrastructure/Controller/Api'
+  prefix: /api/requests/
+
+roles_api_controllers:
+  resource: './Role/Infrastructure/Controller/Api'
+  prefix: /api/roles/
+
+status_request_api_controllers:
+  resource: './StatusRequest/Infrastructure/Controller/Api/'
+  prefix: /api/status_request/
+
+types_request_api_controllers:
+  resource: './TypeRequest/Infrastructure/Controller/Api/'
+  prefix: /api/types_request/
+
+users_api_controllers:
+  resource: './User/Infrastructure/Controller/Api/'
+  prefix: /api/users/
+
+work_places_api_controllers:
+  resource: './WorkPlace/Infrastructure/Controller/Api/'
+  prefix: /api/work_places/
+
+work_positions_api_controllers:
+  resource: './WorkPosition/Infrastructure/Controller/Api/'
+  prefix: /api/work_positions/
+
+
+api_login_check:
+  path: /api/login
+  methods: [ POST ]
+
+
+app.swagger_ui:
+  path: /doc/api
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+  path: /doc/api/doc.json
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger }

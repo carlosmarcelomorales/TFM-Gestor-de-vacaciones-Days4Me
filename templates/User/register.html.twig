@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block outter_body %}
+    <body class="text-center signin">
+    <form method="post" class="form-signin">
+        <div class="mb-4"><img src="{{ asset('dist/images/logo.jpg') }}" class="login-logo" alt="{{ app_vendor_name }}"></div>
+        <h1 class="h3 mb-3 font-weight-normal">{{ 'message.please_register'|trans }}</h1>
+        {{ form_start(registrationForm) }}
+        {{ form_errors(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword) }}
+
+        <button class="btn btn-primary">{{ 'button.register'|trans }}</button>
+        <div class="mb4">{{ 'message.already_registered'|trans }} <a href="{{ url('user_web_login') }}">{{ 'button.sign_in'|trans }}</a></div>
+        {{ form_end(registrationForm) }}
+    </form>
+    {{ block('javascripts') }}
+    </body>
+{% endblock %}
+

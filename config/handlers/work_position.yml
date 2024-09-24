@@ -1,0 +1,44 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  work_position.work_position_repository:
+    class: TFM\HolidaysManagement\WorkPosition\Infrastructure\Repository\WorkPositionDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  work_position.add_work_position_handler:
+    class: TFM\HolidaysManagement\WorkPosition\Application\Create\CreateWorkPosition
+    arguments:
+      - "@work_position.work_position_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPosition\Application\Create\CreateWorkPositionRequest }
+
+  work_position.find_work_position_handler:
+    class: TFM\HolidaysManagement\WorkPosition\Application\Find\FindWorkPosition
+    arguments:
+      - "@work_position.work_position_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPosition\Application\Find\FindWorkPositionRequest }
+
+  work_position.update_work_position_handler:
+    class: TFM\HolidaysManagement\WorkPosition\Application\Update\UpdateWorkPosition
+    arguments:
+      - "@work_position.work_position_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPosition\Application\Update\UpdateWorkPositionRequest }
+
+  work_position.get_work_position_handler:
+    class: TFM\HolidaysManagement\WorkPosition\Application\Get\GetWorkPositions
+    arguments:
+      - "@work_position.work_position_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPosition\Application\Get\GetWorkPositionsRequest }
+
+  work_position.get_json_formatwork_position_handler:
+    class: TFM\HolidaysManagement\WorkPosition\Application\Api\GetApiWorkPositionsRequest
+    arguments:
+      - '@work_position.work_position_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPosition\Application\Api\GetApiWorkPositionsRequest }

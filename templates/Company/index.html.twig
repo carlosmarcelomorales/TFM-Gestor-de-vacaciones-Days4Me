@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Companies{% endblock %}
+
+{% block body %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Companies</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+
+                                <h3 class="card-title"><i
+                                            class="fa fa-list"></i>{% trans %}company.list.company{% endtrans %}</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <table id="table-companies" class="table table-bordered companiesDataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans %}company.vat{% endtrans %}.</th>
+                                        <th>{% trans %}company.name{% endtrans %}</th>
+                                        <th>{% trans %}company.description{% endtrans %}</th>
+                                        <th>{% trans %}company.webSite{% endtrans %}</th>
+                                        <th>{% trans %}company.email{% endtrans %}</th>
+                                        <th>{% trans %}company.phoneNumber1{% endtrans %}</th>
+                                        <th>{% trans %}company.phoneNumber2{% endtrans %}</th>
+                                        <th>{% trans %}company.streetName{% endtrans %}</th>
+                                        <th>{% trans %}company.number{% endtrans %}</th>
+                                        <th>{% trans %}company.floor{% endtrans %}</th>
+                                        <th>{% trans %}company.postalCode{% endtrans %}</th>
+                                        <th>{% trans %}blocked{% endtrans %}</th>
+                                        <th>{% trans %}company.actions{% endtrans %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for company in companies %}
+                                        <tr>
+                                            <td>{{ company.vat }}</td>
+                                            <td>{{ company.name }}</td>
+                                            <td>{{ company.description }}</td>
+                                            <td>{{ company.website }}</td>
+                                            <td>{{ company.email }}</td>
+                                            <td>{{ company.phoneNumber1 }}</td>
+                                            <td>{{ company.phoneNumber2 }}</td>
+                                            <td>{{ company.streetName }}</td>
+                                            <td>{{ company.number }}</td>
+                                            <td>{{ company.floor }}</td>
+                                            <td>{{ company.postalCodes }}</td>
+                                            {% if (company.blocked   == 1) %}
+                                                <td>{% trans %}blocked{% endtrans %}</td>
+                                            {% else %}
+                                                <td>-</td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{{ path('edit_company', {companyId: company.id}) }}"
+                                                   class="btn btn-xs btn-warning">
+                                                    <i class="fa fa-pencil"></i> Editar {{ company.name }}
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.companiesDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkPositions{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>WorkPositions</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">{% trans %}workPosition.new.workPosition{% endtrans %}</h3>
+                            </div>
+                            {{ form_start(workPositionForm,{'attr': { 'enctype':'multipart/form-data','method':'post','name':'workPositionForm', 'id': 'workPositionForm', 'role': 'form' }}) }}
+                            {{ form_row(workPositionForm.id,{'label':'Code','attr': {'class': 'form-control form-control-sm'}}) }}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(workPositionForm.name,{'label':'Name','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(workPositionForm.departments,{'label':'Departments','attr': {'class': 'form-control form-control-sm select2'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            {{ form_widget(workPositionForm.headDepartment) }}
+                                            {{ form_label(workPositionForm.headDepartment) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="error_message"></div>
+                            </div>
+                            <div class="card-footer">
+                                {{ form_widget(workPositionForm.save,{'label':'Save','attr': {'class': 'btn btn-primary'}}) }}
+                            </div>
+                            {{ form_end(workPositionForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        });
+    </script>
+
+{% endblock %}
+

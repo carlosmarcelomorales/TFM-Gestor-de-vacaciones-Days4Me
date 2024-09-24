@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkPositions{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>WorkPosition</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-list"></i>{% trans %}workPosition.list.workPosition{% endtrans %}</h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_workPosition') }}" class="btn btn-primary float-right">
+                                        <i class="fa fa-plus"></i>
+                                        {% trans %}workPosition.new.workPosition{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                    <table id="table-workPositions" class="table table-bordered workPositionsDataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>{% trans %}workPosition.name{% endtrans %}</th>
+                                                <th>{% trans %}workPosition.department{% endtrans %}</th>
+                                                <th>{% trans %}workPosition.headDepartment{% endtrans %}</th>
+                                                <th>{% trans %}workPosition.workplace{% endtrans %}</th>
+                                                <th>{% trans %}workPosition.actions{% endtrans %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for workPosition in workPositions %}
+                                            <tr>
+                                                <td>{{ workPosition.name }}</td>
+                                                <td>{{ workPosition.departments }}</td>
+                                                {% if (workPosition.headDepartment  == 1)%}
+                                                    <td>
+                                                        {% trans %}workPosition.headDepartment.yes{% endtrans %}
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        {% trans %}workPosition.headDepartment.no{% endtrans %}
+                                                    </td>
+                                                {% endif %}
+                                                <td>{{ workPosition.departments.workplace.name }}</td>
+                                                <td>
+                                                    <a href="{{ path('edit_workPosition', {workPositionId: workPosition.id}) }}" class="btn btn-xs btn-warning">
+                                                        <i class="fa fa-pencil"></i>
+                                                        Edit{#{ workPosition.name }#}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.workPositionsDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}
+

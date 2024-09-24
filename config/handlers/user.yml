@@ -1,0 +1,100 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  user.user_repository:
+    class: TFM\HolidaysManagement\User\Infrastructure\Repository\UserDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  user.get_user_by_company_handler:
+    class: TFM\HolidaysManagement\User\Application\Search\GetUsersByCompany
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Search\GetUsersCompanyRequest }
+
+  user.get_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Search\GetUser
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Search\GetUserRequest }
+
+
+  user.get_users_handler:
+    class: TFM\HolidaysManagement\User\Application\Search\GetUsers
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Search\GetUsersRequest }
+
+
+  user.register_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Register\UserRegister
+    arguments:
+      - '@user.user_repository'
+      - '@shared.messenger_domain_event_bus'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Register\UserRegisterRequest }
+
+  user.get_users_filter_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Search\GetUsers
+    arguments:
+      - '@user.user_repository'
+      - '@shared.messenger_domain_event_bus'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Search\GetUsersRequest }
+
+
+  user.create_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Create\CreateUser
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Create\CreateUserRequest }
+
+  user.update_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Update\UpdateUser
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Update\UpdateUserRequest }
+
+  user.request_password_handler:
+    class: TFM\HolidaysManagement\User\Application\Security\RequestToken
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Security\RequestTokenRequest }
+
+  user.recovey_password_handler:
+    class: TFM\HolidaysManagement\User\Application\Security\ValidateToken
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Security\ValidateTokenRequest }
+
+  user.update_password_handler:
+    class: TFM\HolidaysManagement\User\Application\Security\UpdatePassword
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Security\UpdatePasswordRequest }
+
+  user.get_json_format_user_handler:
+    class: TFM\HolidaysManagement\User\Application\Api\GetApiUsers
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Api\GetApiUsersRequest }
+
+  user.find_user_by_email:
+    class: TFM\HolidaysManagement\User\Application\Find\FindUserByEmail
+    arguments:
+      - '@user.user_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\User\Application\Find\FindUserByEmailRequest }
+
+

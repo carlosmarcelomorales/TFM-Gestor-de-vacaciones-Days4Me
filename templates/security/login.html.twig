@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                <div class="card-body">
+                                    <form method="post" action="{{ path('ui_login') }}">
+                                        <div class="form-group"><label class="small mb-1" for="inputEmail">Email</label>
+                                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                                   class="form-control py-4" placeholder="Enter email address" required
+                                                   autofocus>
+                                        </div>
+                                        <div class="form-group"><label class="small mb-1"
+                                                                       for="inputPassword">Password</label>
+                                            <input class="form-control py-4" type="password" name="password"
+                                                   id="inputPassword" placeholder="Enter password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="remember_me"
+                                                       name="_remember_me" />
+                                                <label class="custom-control-label" for="remember_me">Remember
+                                                    password</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                            <button class="btn btn-lg btn-primary" type="submit">
+                                                Sign in
+                                            </button>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="small"><a href="{{ path('ui_request_token') }}">Forgot Password</a>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="_csrf_token"
+                                               value="{{ csrf_token('authenticate') }}">
+                                    </form>
+                                    {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="small"><a href="{{ path('ui_register') }}">Need an account? Sign up!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+    </body>
+{% endblock %}

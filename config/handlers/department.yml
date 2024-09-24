@@ -1,0 +1,46 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  department.department_repository:
+    class: TFM\HolidaysManagement\Department\Infrastructure\Repository\DepartmentDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  department.add_department_handler:
+    class: TFM\HolidaysManagement\Department\Application\Create\CreateDepartment
+    arguments:
+      - "@department.department_repository"
+      - "@work_place.find_work_place_handler"
+      - "@user.get_user_handler"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Department\Application\Create\CreateDepartmentRequest }
+
+  department.find_department_handler:
+    class: TFM\HolidaysManagement\Department\Application\Find\FindDepartment
+    arguments:
+      - '@department.department_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Department\Application\Find\FindDepartmentRequest }
+
+  department.update_department_handler:
+    class: TFM\HolidaysManagement\Department\Application\Update\UpdateDepartment
+    arguments:
+      - '@department.department_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Department\Application\Update\UpdateDepartmentRequest }
+
+  department.get_departments_handler:
+    class: TFM\HolidaysManagement\Department\Application\Get\GetDepartments
+    arguments:
+      - '@department.department_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Department\Application\Get\GetDepartmentsRequest }
+
+  department.get_json_format_department_handler:
+    class: TFM\HolidaysManagement\Department\Application\Api\GetApiDepartments
+    arguments:
+      - '@department.department_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Department\Application\Api\GetApiDepartmentsRequest }

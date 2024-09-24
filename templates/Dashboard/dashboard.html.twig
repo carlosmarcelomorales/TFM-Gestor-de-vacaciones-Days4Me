@@ -1,0 +1,260 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row mb-5">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3 mt-4 text-center">
+                        <h3>{% trans with {'%name%': app.user.name} from 'app' into 'en' %}Hello %name%{% endtrans %}</h3>
+                        <h4><i>{{ "now"|date("d/m/Y") }}</i></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ app.user.availableDays }}</h3>
+                                <p>{% trans %}backend.days.available{% endtrans %}</p>
+                                <div class="icon">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>{{ totalAcceptedRequests }}</h3>
+                                <p>{% trans %}backend.days.accepted{% endtrans %}</p>
+                                <div class="icon">
+                                    <i class="far fa-thumbs-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>{{ totalPendingRequests }}</h3>
+                                <p>{% trans %}backend.days.pending{% endtrans %}</p>
+                                <div class="icon">
+                                    <i class="far fa-bookmark"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-list"></i> {% trans %}request.list.request{% endtrans %}</h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_request') }}" class="btn btn-primary float-right"><i
+                                                class="fa fa-plus"></i> {% trans %}request.new.request{% endtrans %}</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table id="table-departments" class="table table-bordered table-hover dashboardDatatable">
+                                    <thead>
+                                    <tr>
+                                        {% if is_granted('ROLE_COMPANY_ADMIN') %}
+                                            <th>{% trans %}request.users{% endtrans %}</th>
+                                        {% endif %}
+                                        <th>{% trans %}request.statusRequest{% endtrans %}</th>
+                                        <th>{% trans %}request.typesRequest{% endtrans %}</th>
+                                        <th>{% trans %}request.description{% endtrans %}</th>
+                                        <th>{% trans %}request.requestPeriodStart{% endtrans %}</th>
+                                        <th>{% trans %}request.requestPeriodEnd{% endtrans %}</th>
+                                        <th>{% trans %}request.actions{% endtrans %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for request in requests %}
+                                        <tr>
+                                            {% if is_granted('ROLE_COMPANY_ADMIN') %}
+                                                <td>{{ request.users.name }} {{ request.users.lastname }} </td>
+                                            {% endif %}
+                                            <td>
+                                                {% if (request.statusRequest.name == "Annulled") %}
+                                                    <span class="badge badge-info">{{ request.statusRequest }}</span>
+                                                {% endif %}
+
+                                                {% if (request.statusRequest.name == "Pending") %}
+                                                    <span class="badge badge-warning">{{ request.statusRequest }}</span>
+                                                {% endif %}
+
+                                                {% if (request.statusRequest.name == "Accepted") %}
+                                                    <span class="badge badge-success">{{ request.statusRequest }}</span>
+                                                {% endif %}
+
+                                                {% if (request.statusRequest.name == "Declined") %}
+                                                    <span class="badge badge-danger">{{ request.statusRequest }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ request.typesRequest }}</td>
+                                            <td>{{ request.description }}</td>
+                                            <td>{{ request.requestPeriodStart|date('d-m-Y') }}</td>
+                                            <td>{{ request.requestPeriodEnd|date('d-m-Y') }}</td>
+                                            <td>
+                                                <a href="{{ path('edit_request', {requestId: request.id}) }}"
+                                                   class="btn btn-xs btn-info">
+                                                    <i class="fa fa-pencil"></i>
+                                                    {% trans %}button.edit{% endtrans %}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-calendar-alt"></i> My calendar</h3>
+
+                            </div>
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!--Add event modal-->
+    <div id="addNewRequest" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="float-leftl">
+                        <h4>New request</h4>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    <input type="hidden" name="startDateInput" id="startDateInput" value="">
+                    <input type="hidden" name="endDateInput" id="endDateInput" value="">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <span><b>From: </b></span>
+                                <span id="modal-start-date"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group float-right">
+                                <span><b>To: </b></span>
+                                <span id="modal-end-date"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <select name="type_request" id="select_type_request_modal" style="width: 280px;" class="form-control select2">
+                                    <option disabled selected value> -- select an option to filter -- </option>
+                                    {% for type_request in type_requests %}
+                                        <option value="{{ type_request.id }}">{{ type_request.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="description" id="description" type="text" rows="4" placeholder="Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ absolute_url(asset('fullcalendar/main.js')) }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.dashboardDatatable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "pageLength": 5
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                height: 500,
+                selectable: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                },
+                events: $.parseJSON('{{ events | raw }}') ,
+                select: function(info) {
+                    $('#addNewRequest').modal('show');
+                    $('#addNewRequest').find('#modal-start-date').text(info.startStr);
+                    $('#addNewRequest').find('#modal-end-date').text(info.endStr);
+                    $('#startDateInput').val(info.startStr)
+                    $('#endDateInput').val(info.endStr)
+                }
+            });
+            $('#submitButton').on('click', function (e) {
+                e.preventDefault();
+                doSubmit();
+            })
+
+
+            function doSubmit() {
+                $('#addNewRequest').modal('hide');
+
+                var start_date = $('#startDateInput').val();
+                var end_date = $('#endDateInput').val()
+                var description = $('#description').val()
+                var type_request = $('#select_type_request_modal').val()
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path("save_request_calendar") }}',
+                    data: { start_date: start_date, end_date: end_date, description:  description, type_request: type_request },
+                    success: function (data) {
+                        calendar.addEvent({
+                            title: $('#description').val(),
+                            start: $('#startDateInput').val(),
+                            end: $('#endDateInput').val(),
+                            allDay: true
+                        });
+                    }
+                })
+
+            }
+
+            calendar.render();
+        });
+
+    </script>
+
+{% endblock %}
+

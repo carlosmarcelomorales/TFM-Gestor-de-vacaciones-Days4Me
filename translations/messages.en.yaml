@@ -1,0 +1,197 @@
+#Email
+email.company.welcome.subject: 'Welcome to the company'
+email.user.welcome.subject: 'Welcome to the company'
+email.request.subject: 'Request from Days4Me'
+email.recovery.subject: 'Access data for your client area'
+email.request: 'New Request '
+email.user: 'New User'
+email.recovery: 'Recovery Password'
+email.days.available: 'Days availables'
+email.days.accumulated: 'Days accumulated'
+email.hello: 'Hello '
+email.company.content: 'Thanks for signing up for Days4me. To access the dashboard click on the following link '
+email.request.content: 'You have just made a new request, the information of your days is: '
+email.user.content: 'Please, to access the web app, you has to update password, click on the link '
+email.recover.content: 'If you want to change your password, do so through the following link '
+email.regards: 'Regards,'
+email.team: 'Days4me Team'
+email.brand: 'Days4me'
+
+#Company
+search.company.service.not.available: 'Company search service is not available'
+company.new.company: 'Add new company'
+company.list.company: 'Companies list'
+company.controller.save.company: 'An error occurred while creating the company.'
+company.controller.save.form.error: 'Error to save company. Error:'
+company.controller.update.form.error: 'Error to update company . Error:'
+the.company.data.not.complete: 'The company data not complete'
+company.vat: VAT
+company.name: Name
+company.description: Description
+company.webSite: Web site
+company.email: Email Address
+company.phoneNumber1: Phone Number
+company.phoneNumber2: Phone Number
+company.streetName: Street Name
+company.number: Nº
+company.floor: Floor
+company.postalCode: Postal Code
+company.actions: Actions
+
+#User
+user.controller.save.user: 'An error occurred while creating the user.'
+user.controller.save.form.error: 'Error to save user . Error:'
+user.controller.update.form.error: 'Error to update user . Error:'
+users.list: 'Users list'
+users.new.user: 'Add new user'
+users.name: Name
+users.lastName: Lastname
+users.dni: DNI
+users.availableDays: Available Days
+users.phoneNumber: Phone Number
+users.emailAddress: Email Address
+users.socialSecurityNumber: Social Security Number
+users.accumulatedDays: Accumulated Days
+users.roles: Roles
+users.workPositions: WorkPosition
+users.departments: Department
+users.incorporationDate: Incorporation Date
+users.streetName: Street Name
+users.number: Nº
+users.floor: Floor
+users.password.now: Current Password
+users.password.change: New Password
+users.actions: Actions
+
+
+#Settings
+button.sign_out: 'Logout'
+button.edit: 'Edit'
+button.view: 'View'
+messages.save.ok: 'Save correctly :)'
+blocked: Blocked
+
+#Department
+department.new.department: Add new department
+department.list.department: Departments list
+department.controller.save.department: 'An error occurred while creating the department.'
+department.controller.save.form.error: 'Error to save department . Error:'
+department.controller.update.form.error: 'Error to update department . Error:'
+department.name: Name
+department.description: Description
+department.phoneNumber: Phone Number
+department.phoneExtension: Phone Extension
+department.workplace: Workplace
+department.actions: Actions
+
+#WorkPosition
+workPosition.new.workPosition: Add new workposition
+workPosition.list.workPosition: WorkPosition list
+workPosition.controller.save.workPosition: 'An error occurred while creating the workPosition.'
+workPosition.controller.save.form.error: 'Error to save workPosition . Error:'
+workPosition.controller.update.form.error: 'Error to update workPosition . Error:'
+workPosition.name: Name
+workPosition.department: Department
+workPosition.headDepartment: Department head
+workPosition.workplace: WorkPlace
+workPosition.actions: Actions
+workPosition.headDepartment.yes: 'Yes'
+workPosition.headDepartment.no: 'No'
+
+
+#Holiday
+holiday.new.holiday: Add new holiday
+holiday.list.holiday: Holiday list
+holiday.controller.save.holiday: 'An error occurred while creating the holiday.'
+holiday.controller.save.form.error: 'Error to save holiday . Error:'
+holiday.controller.update.form.error: 'Error to update holiday . Error:'
+holiday.holidayName: Holiday Name
+holiday.startDay: Start Day
+holiday.endDay: End Day
+holiday.workplaces: Workplaces
+holiday.actions: Actions
+
+#WorkPlace
+workPlace.new.workplace: Add new workplace
+workPlace.list.workplace: WorkPlaces list
+workPlace.controller.save.workplace: 'An error occurred while creating the workplace.'
+workPlace.controller.save.form.error: 'Error to save workplace . Error:'
+workPlace.controller.update.form.error: 'Error to update workplace . Error:'
+workPlace.name: Name
+workPlace.description: Description
+workPlace.phoneNumber1: Phone Number
+workPlace.phoneNumber2: Phone Number
+workPlace.email: Email Address
+workPlace.permitAccumulate: Permit accumulate
+workPlace.monthPermittedToAccumulate: Month permitted
+workPlace.holidayStartYear: Holiday Start Year
+workPlace.holidayEndYear: Holiday End Year
+workPlace.streetName: Street Name
+workPlace.number: Nº
+workPlace.floor: Floor
+workPlace.companies: Company
+workPlace.postalCodes: Postal Code
+workPlace.actions: Actions
+workPlace.permitAccumulate.yes: 'Yes'
+workPlace.permitAccumulate.no: 'No'
+workPlace.month.1: 'January'
+workPlace.month.2: 'February'
+workPlace.month.3: 'March'
+workPlace.month.4: 'April'
+workPlace.month.5: 'May'
+workPlace.month.6: 'June'
+workPlace.month.7: 'July'
+workPlace.month.8: 'August'
+workPlace.month.9: 'September'
+workPlace.month.10: 'October'
+workPlace.month.11: 'November'
+workPlace.month.12: 'December'
+
+#Request
+request.new.request: Add new request
+request.list.request: Requests list
+requestManagement.list.request: Requests Management list
+request.data.not.complete: 'The Request data not complete'
+request.controller.save.request: 'An error occurred while creating the request.'
+request.controller.save.form.error: 'Error to save request . Error:'
+request.controller.update.form.error: 'Error to update request . Error:'
+request.description: Description
+request.users: User
+request.typesRequest: Type Request
+request.statusRequest: Status
+request.requestPeriodStart: Request Period Start
+request.requestPeriodEnd: Request Period End
+request.documents: Documents
+request.actions: Actions
+request.request: Request
+button.change.status: Change status
+button.view.status: View status
+request.employee: Employee
+
+#Backend
+backend.days.available: 'Days available'
+backend.days.accepted: 'Requests accepted'
+backend.days.pending: 'Requests pending'
+
+#Months
+january: 'January'
+february: 'February'
+march: 'March'
+april: 'April'
+may: 'May'
+june: 'June'
+july: 'July'
+august: 'August'
+september: 'September'
+october: 'October'
+november: 'November'
+december: 'December'
+
+#Constraint
+message.constraint.empty: 'The field cannot be empty!'
+days.request.coincident.other.requests: 'Days requested coincide with other requests!!'
+department.not.blocked: 'The department has active users, it cannot be blocked.'
+workPlace.not.blocked: 'The WorkPlace has active departments, it cannot be blocked.'
+
+#Login
+get.password: 'Reset Password'

@@ -1,0 +1,141 @@
+# config/packages/security.yaml
+security:
+  encoders:
+    TFM\HolidaysManagement\User\Domain\Model\Aggregate\User:
+      algorithm: 'argon2i'
+      # maximum memory (in KiB) that may be used to compute the Argon2 hash
+      memory_cost: 1024
+      #  number of times the Argon2 hash algorithm will be run
+      time_cost: 3
+
+  providers:
+    app_user_provider:
+      entity:
+        class: TFM\HolidaysManagement\User\Domain\Model\Aggregate\User
+        property: emailAddress
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    api_login:
+      pattern: ^/api/login
+      stateless: true
+      anonymous: true
+      json_login:
+        check_path: /api/login
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+    api:
+      pattern: ^/api
+      stateless: true
+      anonymous: false
+      provider: app_user_provider
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
+
+    main:
+      anonymous: ~
+      pattern: ^/
+      switch_user: { role: ROLE_SUPER_ADMIN, parameter: _switch_user }
+      guard:
+        authenticators:
+          - TFM\HolidaysManagement\User\Infrastructure\Framework\Security\LoginFormAuthenticator
+      remember_me:
+        secret: '%kernel.secret%'
+        lifetime: 1209600 # 2 week in seconds
+        path: /
+        always_remember_me: false
+      logout:
+        path: ui_logout
+        target: /login
+
+  access_control:
+    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/logout, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/password, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/create, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/doc, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
+    #FrontEnd
+    - { path: ^/calendar, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/save_request_calendar, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/get_requests_by_user, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/get_requests_by_type_request, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/get_requests_by_department, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    - { path: ^/countries, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/regions, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/towns, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/postal-codes, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: ^/town_postal_code, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Backend
+    - { path: ^/dashboard, role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/profile', role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/profile/save', role: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Company
+    - { path: '^/company/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/company/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/company/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/company/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/company/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/company/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Department
+    - { path: '^/department/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/department/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/department/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/department/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/department/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/department/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Workplace
+    - { path: '^/workplace/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workplace/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workplace/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workplace/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workplace/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workplace/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Request
+    - { path: '^/request/list', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/add', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/create', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/edit', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/save', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/update', roles: [ROLE_USER, ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #Holiday
+    - { path: '^/holiday/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/holiday/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/holiday/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/holiday/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/holiday/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/holiday/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #WorkPosition
+    - { path: '^/workposition/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workposition/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workposition/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workposition/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workposition/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/workposition/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #User
+    - { path: '^/user/list', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/user/add', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/user/create', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/user/edit', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/user/save', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/user/update', roles: [ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+
+    #RequestManagement
+    - { path: '^/request/management/', roles: [ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }
+    - { path: '^/request/management/update', roles: [ROLE_COMPANY_HEAD, ROLE_COMPANY_ADMIN, ROLE_SUPER_ADMIN] }

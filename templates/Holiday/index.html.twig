@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Holidays{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Holiday</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-list"></i>{% trans %}holiday.list.holiday{% endtrans %}</h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_holiday') }}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-plus"></i>
+                                        {% trans %}holiday.new.holiday{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                    <table id="table-holidays" class="table table-bordered table-hover holidaysDataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>{% trans %}holiday.holidayName{% endtrans %}</th>
+                                                <th>{% trans %}holiday.startDay{% endtrans %}</th>
+                                                <th>{% trans %}holiday.endDay{% endtrans %}</th>
+                                                <th>{% trans %}holiday.workplaces{% endtrans %}</th>
+                                                <th>{% trans %}holiday.actions{% endtrans %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for holiday in holidays %}
+                                            <tr>
+                                                <td>{{ holiday.holidayName }}</td>
+                                                <td>{{ holiday.startDay|date('d/m/Y') }}</td>
+                                                <td>{{ holiday.endDay|date('d/m/Y') }}</td>
+                                                <td>{{ holiday.workplaces }}</td>
+                                                <td>
+                                                    <a href="{{ path('edit_holiday', {holidayId: holiday.id}) }}" class="btn  btn-xs btn-warning">
+                                                        <i class="fa fa-pencil"></i>
+                                                        Edit{#{ holiday.name }#}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.holidaysDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

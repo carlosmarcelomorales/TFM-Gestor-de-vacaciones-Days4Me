@@ -1,0 +1,317 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #007bff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 2s linear infinite;
+            border-bottom: 16px solid #007bff;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Calendar</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="users">Users:</label>
+                            <select name="users" style="width: 250px;" id="select_users" class="form-control select2">
+                                <option disabled selected value> -- select an option to filter-- </option>
+                                {% for user in users %}
+                                    <option value="{{ user.id }}">{{ user.name }} {{ user.lastname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="departmnet">Department:</label>
+                            <select name="department" id="select_departments" style="width: 250px;" class="form-control select2">
+                                <option disabled selected value> -- select an option to filter-- </option>
+                                {% for department in departments %}
+                                    <option value="{{ department.id }}">{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="type_request">Request Type:</label>
+                            <select name="type_request" id="select_type_request" style="width: 250px;" class="form-control select2">
+                                <option disabled selected value> -- select an option to filter -- </option>
+                                {% for type_request in type_requests %}
+                                    <option value="{{ type_request.id }}">{{ type_request.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="loader" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--Add event modal-->
+    <div id="addNewRequest" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="float-leftl">
+                        <h4>New request</h4>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    <input type="hidden" name="startDateInput" id="startDateInput" value="">
+                    <input type="hidden" name="endDateInput" id="endDateInput" value="">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <span><b>From: </b></span>
+                                <span id="modal-start-date"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group float-right">
+                                <span><b>To: </b></span>
+                                <span id="modal-end-date"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <select name="type_request" id="select_type_request_modal" style="width: 280px;" class="form-control select2">
+                                    <option disabled selected value> -- select an option to filter -- </option>
+                                    {% for type_request in type_requests %}
+                                        <option value="{{ type_request.id }}">{{ type_request.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="description" id="description" type="text" rows="4" placeholder="Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src='fullcalendar/main.js'></script>
+
+    <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+        });
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                selectable: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                },
+                eventDidMount: function(info) {
+                    $(info.el).tooltip({
+                        title: info.event.extendedProps.description,
+                        container: "body",
+                        content: info.event.extendedProps.typesRequest
+                    });
+                },
+
+                events: $.parseJSON('{{ events | raw }}') ,
+                select: function(info) {
+                    $('#addNewRequest').modal('show');
+
+                    $('#addNewRequest').find('#modal-start-date').text(info.startStr);
+                    $('#addNewRequest').find('#modal-end-date').text(info.endStr);
+
+                    $('#startDateInput').val(info.startStr)
+                    $('#endDateInput').val(info.endStr)
+
+                }
+
+            });
+
+            calendar.render();
+
+            $('#submitButton').on('click', function (e) {
+                e.preventDefault();
+
+                doSubmit();
+            })
+
+            function doSubmit() {
+                $('#addNewRequest').modal('hide');
+
+                var start_date = $('#startDateInput').val();
+                var end_date = $('#endDateInput').val()
+                var description = $('#description').val()
+                var type_request = $('#select_type_request_modal').val()
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path("save_request_calendar") }}',
+                    data: { start_date: start_date, end_date: end_date, description:  description, type_request: type_request },
+                    success: function (data) {
+                        calendar.addEvent({
+                            title: $('#description').val(),
+                            start: $('#startDateInput').val(),
+                            end: $('#endDateInput').val(),
+                            allDay: true
+                        });
+                    }
+                })
+
+            }
+
+            $('#select_users').on('change', function () {
+
+                var user_id = $(this).val();
+
+                getNewEvents('users', user_id);
+
+
+            })
+            $('#select_type_request').on('change', function () {
+
+                var type_request_id = $(this).val();
+
+                getNewEvents('type_request', type_request_id)
+            })
+
+            $('#select_departments').on('change', function () {
+
+                var department_id = $(this).val();
+
+                getNewEvents('department', department_id)
+            })
+
+
+            function getNewEvents(type, id) {
+
+                var route = '';
+                var data = '';
+
+                if (type === 'users') {
+                    route = '{{ path("ajax_get_request_by_user") }}';
+                    data = {user_id:  id}
+
+                } else if (type === 'type_request') {
+                    route = '{{ path("ajax_get_request_by_type_request") }}';
+                    data = {type_request_id: id}
+                } else if (type === 'department') {
+                    route = '{{ path('ajax_get_request_by_department') }}';
+                    data = {department_id:  id}
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: route,
+                    data: data,
+                    beforeSend: function() {
+                        $('.loader').show();
+                    },
+                    success: function (data) {
+
+                        $('.loader').hide();
+                        var oldEvents = calendar.getEvents()
+
+                        $.each(oldEvents, function (key, event) {
+                            event.remove()
+                        })
+
+                        var newEvents = $.parseJSON(data.events);
+
+                        $.each(newEvents, function (key, event) {
+                            calendar.addEvent({
+                                title: event.title,
+                                start: event.start,
+                                end: event.end,
+                                description: event.description,
+                                backgroundColor: event.backgroundColor,
+                                id: event.id,
+
+                            })
+                        })
+
+                    }
+                })
+            }
+
+        });
+
+    </script>
+
+{% endblock %}

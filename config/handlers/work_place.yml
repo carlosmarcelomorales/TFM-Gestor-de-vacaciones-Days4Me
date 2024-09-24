@@ -1,0 +1,44 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  work_place.work_place_repository:
+    class: TFM\HolidaysManagement\WorkPlace\Infrastructure\Repository\WorkPlaceDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  work_place.add_work_place_handler:
+    class: TFM\HolidaysManagement\WorkPlace\Application\Create\CreateWorkPlace
+    arguments:
+      - "@work_place.work_place_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPlace\Application\Create\CreateWorkPlaceRequest }
+
+  work_place.find_work_place_handler:
+    class: TFM\HolidaysManagement\WorkPlace\Application\Find\FindWorkPlace
+    arguments:
+      - '@work_place.work_place_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPlace\Application\Find\FindWorkPlaceRequest }
+
+  work_place.update_work_place_handler:
+    class: TFM\HolidaysManagement\WorkPlace\Application\Update\UpdateWorkPlace
+    arguments:
+      - '@work_place.work_place_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPlace\Application\Update\UpdateWorkPlaceRequest }
+
+  work_place.get_work_place_handler:
+    class: TFM\HolidaysManagement\WorkPlace\Application\Get\GetWorkPlaces
+    arguments:
+      - '@work_place.work_place_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPlace\Application\Get\GetWorkPlacesRequest }
+
+  work_place.get_json_format_work_place_handler:
+    class: TFM\HolidaysManagement\WorkPlace\Application\Api\GetApiWorkPlaces
+    arguments:
+      - '@work_place.work_place_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\WorkPlace\Application\Api\GetApiWorkPlacesRequest }

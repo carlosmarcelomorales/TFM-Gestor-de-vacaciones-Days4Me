@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkPlaces{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>WorkPlaces</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-list"></i>{% trans %}workPlace.list.workplace{% endtrans %}</h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_workPlace') }}" class="btn btn-primary float-right">
+                                        <i class="fa fa-plus"></i>
+                                        {% trans %}workPlace.new.workplace{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <table id="table-workPlaces" class="table  table-bordered workPlacesDataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans %}workPlace.name{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.description{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.phoneNumber1{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.phoneNumber2{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.email{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.permitAccumulate{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.monthPermittedToAccumulate{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.holidayStartYear{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.holidayEndYear{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.streetName{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.number{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.floor{% endtrans %}</th>
+{#                                        <th>{% trans %}workPlace.companies{% endtrans %}</th>#}
+                                        <th>{% trans %}workPlace.postalCodes{% endtrans %}</th>
+                                        <th>{% trans %}blocked{% endtrans %}</th>
+                                        <th>{% trans %}workPlace.actions{% endtrans %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for workPlace in workPlaces %}
+                                        <tr>
+                                            <td>{{ workPlace.name }}</td>
+                                            <td>{{ workPlace.description }}</td>
+                                            <td>{{ workPlace.phoneNumber1 }}</td>
+                                            <td>{{ workPlace.phoneNumber2 }}</td>
+                                            <td>{{ workPlace.email }}</td>
+                                            {% if (workPlace.permitAccumulate  == 1) %}
+                                                 <td>{% trans %}workPlace.permitAccumulate.yes{% endtrans %}</td>
+                                            {% else %}
+                                                <td>{% trans %}workPlace.permitAccumulate.no{% endtrans %}</td>
+                                            {% endif %}
+                                            {% if workPlace.monthPermittedToAccumulate == 1 %}
+                                                <td>{% trans %}workPlace.month.1{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 2 %}
+                                                <td>{% trans %}workPlace.month.2{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 3 %}
+                                                <td>{% trans %}workPlace.month.3{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 4 %}
+                                                <td>{% trans %}workPlace.month.4{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 5 %}
+                                                <td>{% trans %}workPlace.month.5{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 6 %}
+                                                <td>{% trans %}workPlace.month.6{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 7 %}
+                                                <td>{% trans %}workPlace.month.7{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 8 %}
+                                                <td>{% trans %}workPlace.month.8{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 9 %}
+                                                <td>{% trans %}workPlace.month.9{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 10 %}
+                                                <td>{% trans %}workPlace.month.10{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 11 %}
+                                                <td>{% trans %}workPlace.month.11{% endtrans %}</td>
+                                            {% elseif workPlace.monthPermittedToAccumulate == 12 %}
+                                                <td>{% trans %}workPlace.month.12{% endtrans %}</td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+                                            <td>{{ workPlace.holidayStartYear|date('d-m-Y') }}</td>
+                                            <td>{{ workPlace.holidayEndYear|date('d-m-Y') }}</td>
+                                            <td>{{ workPlace.streetName }}</td>
+                                            <td>{{ workPlace.number }}</td>
+                                            <td>{{ workPlace.floor }}</td>
+{#                                            <td>{{ workPlace.companies }}</td>#}
+                                            <td>{{ workPlace.postalCodes }}</td>
+                                            {% if (workPlace.blocked  == 1) %}
+                                                <td>{% trans %}blocked{% endtrans %}</td>
+                                            {% else %}
+                                                <td>-</td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{{ path('edit_workPlace', {workPlaceId: workPlace.id}) }}" class="btn  btn-sm btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                    Edit{#{ workPlace.name }#}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.workPlacesDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  type_request.type_request_repository:
+    class: TFM\HolidaysManagement\TypeRequest\Infrastructure\Persistence\Repository\DoctrineTypeRequestRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  type_request.get_type_requests_handler:
+    class: TFM\HolidaysManagement\TypeRequest\Application\Search\GetTypeRequest
+    arguments:
+      - "@type_request.type_request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\TypeRequest\Application\Search\GetTypeRequestRequest }
+
+
+  type_request.get_all_type_request:
+    class: TFM\HolidaysManagement\TypeRequest\Application\Search\GetAllTypeRequests
+    arguments:
+      - "@type_request.type_request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\TypeRequest\Application\Search\GetAllTypesRequestsRequest }
+
+  type_request.get_json_format_type_request_handler:
+    class: TFM\HolidaysManagement\TypeRequest\Application\Api\GetApiTypesRequest
+    arguments:
+      - '@type_request.type_request_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\TypeRequest\Application\Api\GetApiTypesRequestRequest }

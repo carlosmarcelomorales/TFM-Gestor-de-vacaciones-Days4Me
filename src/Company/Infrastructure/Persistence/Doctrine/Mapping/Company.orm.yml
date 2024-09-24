@@ -1,0 +1,81 @@
+TFM\HolidaysManagement\Company\Domain\Model\Aggregate\Company:
+  type: entity
+  table: company
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    vat:
+      column: vat
+      type: string
+      length: 15
+      nullable: false
+    name:
+      column: name
+      type: string
+      length: 100
+      nullable: false
+    description:
+      column: description
+      type: string
+      length: 255
+      nullable: true
+    webSite:
+      column: website
+      type: string
+      length: 100
+      nullable: true
+    phoneNumber1:
+      column: phone_number1
+      type: string
+      length: 20
+      nullable: false
+    phoneNumber2:
+      column: phone_number2
+      type: string
+      length: 20
+      nullable: true
+    email:
+      column: email
+      type: string
+      length: 100
+      nullable: false
+    streetName:
+      column: street_name
+      type: string
+      length: 100
+      nullable: false
+    number:
+      column: number
+      type: integer
+      nullable: true
+    floor:
+      column: floor
+      type: string
+      length: 20
+      nullable: true
+    businessDays:
+      column: business_days
+      type: boolean
+    blocked:
+      column: blocked
+      type: boolean
+    blockedOn:
+      column: blocked_on
+      type: datetime_immutable
+      nullable: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    postalCodes:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\PostalCode\PostalCode
+      joinColumn:
+        name: postal_code_id
+        referencedColumnName: uuid

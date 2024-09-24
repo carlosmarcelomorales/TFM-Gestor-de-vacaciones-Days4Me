@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  TFM\HolidaysManagement\Shared\:
+    resource: '%kernel.project_dir%/src/Shared/{Application,Domain,Infrastructure}/'
+
+  TFM\HolidaysManagement\Shared\Domain\Model\Event\DomainEventBus:
+    alias: 'TFM\HolidaysManagement\Shared\Infrastructure\Event\MessengerDomainEventBus'
+
+  shared.messenger_domain_event_bus:
+    class: TFM\HolidaysManagement\Shared\Infrastructure\Event\MessengerDomainEventBus
+    arguments:
+      $eventBus: '@event.bus'

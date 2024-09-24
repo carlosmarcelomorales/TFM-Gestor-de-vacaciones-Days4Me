@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departments{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Department</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">{%trans %}department.new.department{% endtrans %}</h3>
+                            </div>
+                            {{ form_start(departmentForm,{'attr': { 'enctype':'multipart/form-data','method':'post','name':'departmentForm', 'id': 'departmentForm', 'role':'form' }}) }}
+                            {{ form_row(departmentForm.id,{'label':'Code','attr': {'class': 'form-control form-control-sm'}}) }}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(departmentForm.name,{'label':'Name','attr': {'class': 'form-control '}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(departmentForm.description,{'label':'Description','attr': {'class': 'form-control '}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(departmentForm.workplace,{'label':'Workplace','attr': {'class': 'form-control select2'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            {{ form_row(departmentForm.phoneNumber,{'label':'Phone','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            {{ form_row(departmentForm.phoneExtension,{'label':'Ext.','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    {{ form_widget(departmentForm.blocked) }}
+                                    {{ form_label(departmentForm.blocked) }}
+                                </div>
+                                <div class="card-footer">
+                                    {{ form_widget(departmentForm.save,{'label':'Save','attr': {'class': 'btn btn-primary '}}) }}
+                                </div>
+                            </div>
+                            {{ form_end(departmentForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        });
+    </script>
+
+{% endblock %}

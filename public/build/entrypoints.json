@@ -1,0 +1,35 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/app.8270870b.js"
+      ],
+      "css": [
+        "/build/app.f67ba8d1.css"
+      ]
+    },
+    "dropzone": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/0.cf60d32b.js",
+        "/build/2.9e72b611.js",
+        "/build/dropzone.a260e9af.js"
+      ],
+      "css": [
+        "/build/dropzone.02f0a392.css"
+      ]
+    },
+    "select2": {
+      "js": [
+        "/build/runtime.d94b3b43.js",
+        "/build/0.cf60d32b.js",
+        "/build/1.da0c1ca8.js",
+        "/build/select2.0832d804.js"
+      ],
+      "css": [
+        "/build/select2.1985d629.css"
+      ]
+    }
+  }
+}

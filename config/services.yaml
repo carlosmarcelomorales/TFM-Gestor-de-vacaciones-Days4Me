@@ -1,0 +1,63 @@
+parameters:
+  app.vendor.name: 'DamePokalor'
+  app.name: 'DamePokalor'
+  app.support.email: 'damepokalor@gmail.com'
+  app.documents.directory: 'http://localhost:8080/repository/'
+
+  knp_menu.renderer.twig.options:
+    currentClass: active
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  TFM\HolidaysManagement\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+
+  tactician.handler.inflector.handle:
+    class: TFM\HolidaysManagement\Shared\Infrastructure\CommandBus\TacticianHandlerInflector
+
+  TFM\HolidaysManagement\Country\Infrastructure\Repository\TownDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\WorkPlace\Infrastructure\Repository\WorkPlaceDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\Role\Infrastructure\Repository\RolesDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\WorkPlace\Infrastructure\Repository\WorkplaceDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\Department\Infrastructure\Repository\DepartmentDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\WorkPosition\Infrastructure\Repository\WorkPositionDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\User\Infrastructure\Repository\UserDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  TFM\HolidaysManagement\Country\Infrastructure\Repository\PostalCodeDoctrineRepository:
+    arguments: [ '@doctrine.orm.entity_manager' ]
+
+  app.menu__main_builder:
+    class: TFM\HolidaysManagement\Menu\Infrastructure\Framework\Factory\MenuBuilder
+    arguments:
+      - "@knp_menu.factory"
+      - "@security.authorization_checker"
+    tags:
+      - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+
+  app.menu_user_builder:
+    class: TFM\HolidaysManagement\Menu\Infrastructure\Framework\Factory\MenuBuilder
+    arguments:
+      - "@knp_menu.factory"
+      - "@security.authorization_checker"
+    tags:
+      - { name: knp_menu.menu_builder, method: createUserMenu, alias: user }
+
+imports:
+  - { resource: handlers/*.yml }

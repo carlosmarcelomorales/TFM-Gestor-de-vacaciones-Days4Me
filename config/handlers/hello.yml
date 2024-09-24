@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  hello.hello_world_handler:
+    class: TFM\HolidaysManagement\HelloWorld\Application\HelloWorld
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\HelloWorld\Application\HelloWordRequest }

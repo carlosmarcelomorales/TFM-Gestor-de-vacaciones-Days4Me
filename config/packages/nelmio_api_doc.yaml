@@ -1,0 +1,20 @@
+nelmio_api_doc:
+    documentation:
+        schemes: [http, https]
+        info:
+            title: Days4Me
+            description: This is holidays awesome app!
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+#        host_patterns:
+#            - ^api\.

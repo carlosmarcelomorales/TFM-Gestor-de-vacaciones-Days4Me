@@ -1,0 +1,28 @@
+TFM\HolidaysManagement\Role\Domain\Model\Aggregate\Role:
+  type: entity
+  table: role
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 50
+      nullable: false
+      unique: true
+    description:
+      column: description
+      type: string
+      length: 255
+      nullable: true
+      unique: false
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true

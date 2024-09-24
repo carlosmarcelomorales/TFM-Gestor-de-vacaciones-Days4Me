@@ -1,0 +1,38 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  role.role_repository:
+    class: TFM\HolidaysManagement\Role\Infrastructure\Repository\RolesDoctrineRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+
+  role.get_roles_handler:
+    class: TFM\HolidaysManagement\Role\Application\Search\GetArrayRolesById
+    arguments:
+      - '@role.role_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Role\Application\Search\GetArrayRolesByIdRequest }
+
+  role.get_json_format_role_handler:
+    class: TFM\HolidaysManagement\Role\Application\Api\GetApiRoles
+    arguments:
+      - '@role.role_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Role\Application\Api\GetApiRolesRequest }
+
+  role.get_one_filtered_role_handler:
+    class: TFM\HolidaysManagement\Role\Application\Search\GetRole
+    arguments:
+      - '@role.role_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Role\Application\Search\GetRoleRequest }
+
+  role.get_filtered_roles_handler:
+    class: TFM\HolidaysManagement\Role\Application\Search\GetRoles
+    arguments:
+      - '@role.role_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Role\Application\Search\GetRolesRequest }
+

@@ -1,0 +1,23 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  status_request.status_request_repository:
+    class: TFM\HolidaysManagement\StatusRequest\Infrastructure\Persistence\Repository\DoctrineStatusRequestRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  status_request.get_status_requests_handler:
+    class: TFM\HolidaysManagement\StatusRequest\Application\Search\GetStatusRequest
+    arguments:
+      - "@status_request.status_request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\StatusRequest\Application\Search\GetStatusRequestRequest }
+
+  status_request.get_json_format_status_request_handler:
+    class: TFM\HolidaysManagement\StatusRequest\Application\Api\GetApiStatusRequests
+    arguments:
+      - "@status_request.status_request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\StatusRequest\Application\Api\GetApiStatusRequestsRequest }

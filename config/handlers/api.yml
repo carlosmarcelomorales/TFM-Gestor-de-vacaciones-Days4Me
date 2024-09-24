@@ -1,0 +1,49 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  TFM\HolidaysManagement\Company\Infrastructure\Controller\Api\:
+    resource: '../../src/Company/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\Department\Infrastructure\Controller\Api\:
+    resource: '../../src/Department/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\Document\Infrastructure\Controller\Api\:
+    resource: '../../src/Document/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\Holiday\Infrastructure\Controller\Api\:
+    resource: '../../src/Holiday/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\Request\Infrastructure\Controller\Api\:
+    resource: '../../src/Request/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\Role\Infrastructure\Controller\Api\:
+    resource: '../../src/Role/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\StatusRequest\Infrastructure\Controller\Api\:
+    resource: '../../src/StatusRequest/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\TypeRequest\Infrastructure\Controller\Api\:
+    resource: '../../src/TypeRequest/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\User\Infrastructure\Controller\Api\:
+    resource: '../../src/User/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\WorkPlace\Infrastructure\Controller\Api\:
+    resource: '../../src/WorkPlace/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]
+
+  TFM\HolidaysManagement\WorkPosition\Infrastructure\Controller\Api\:
+    resource: '../../src/WorkPosition/Infrastructure/Controller/Api/'
+    tags: [ 'controller.service_arguments' ]

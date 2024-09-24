@@ -1,0 +1,30 @@
+TFM\HolidaysManagement\Document\Domain\Model\Aggregate\Document:
+  type: entity
+  table: document
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 150
+      nullable: false
+    link:
+      column: link
+      type: string
+      length: 255
+      nullable: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+    deleteOn:
+      column: delete_date
+      type: datetime_immutable
+      nullable: true

@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Users</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-list"></i> {% trans %}users.list{% endtrans %}</h3>
+                                    <div class="card-tools">
+                                        {% if not is_granted('ROLE_SUPER_ADMIN')  %}
+                                        <a href="{{ path('new_user') }}" class="btn btn-primary float-right"><i
+                                                    class="fa fa-plus"></i>{% trans %}users.new.user{% endtrans %}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <table id="table-users" class="table table-bordered table-hover usersDataTable">
+                                        <thead>
+                                        <tr>
+                                            <th>{% trans %}users.name{% endtrans %}</th>
+                                            <th>{% trans %}users.lastName{% endtrans %}</th>
+                                            <th>{% trans %}users.dni{% endtrans %}</th>
+                                            <th>{% trans %}users.availableDays{% endtrans %}</th>
+                                            <th>{% trans %}users.phoneNumber{% endtrans %}</th>
+                                            <th>{% trans %}users.emailAddress{% endtrans %}</th>
+                                            <th>{% trans %}users.workPositions{% endtrans %}</th>
+                                            <th>{% trans %}users.departments{% endtrans %}</th>
+                                            <th>{% trans %}blocked{% endtrans %}</th>
+                                            <th>{% trans %}users.actions{% endtrans %}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td>{{ user.name }}</td>
+                                                <td>{{ user.lastName }}</td>
+                                                <td>{{ user.dni }}</td>
+                                                <td>{{ user.availableDays }}</td>
+                                                <td>{{ user.phoneNumber }}</td>
+                                                <td>{{ user.emailAddress }}</td>
+                                                <td>{{ user.workpositions.name }}</td>
+                                                <td>{{ user.departments.name }}</td>
+                                                {% if (user.blocked   == 1) %}
+                                                    <td>{% trans %}blocked{% endtrans %}</td>
+                                                {% else %}
+                                                    <td>-</td>
+                                                {% endif %}
+                                                <td>
+                                                    <a href="{{ path('edit_user', {userId: user.id}) }}" class="btn btn-xs btn-warning">
+                                                        <i class="fa fa-pencil"></i> {% trans %}button.edit{% endtrans %} {{ user.name }}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.usersDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

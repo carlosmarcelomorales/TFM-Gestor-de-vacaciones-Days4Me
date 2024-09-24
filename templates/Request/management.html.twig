@@ -1,0 +1,260 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Requests Management{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('dropzone') }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    {% set statusRequest = request.statusRequest.name %}
+    {% set style="warning" %}
+
+    {% if (statusRequest == "Annulled") %}
+        {% set style="info" %}
+    {% elseif (statusRequest == "Pending") %}
+        {% set style="warning" %}
+    {% elseif (statusRequest == "Accepted") %}
+        {% set style="success" %}
+    {% elseif (statusRequest == "Declined") %}
+        {% set style="danger" %}
+    {% endif %}
+
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            <span class="badge-{{ style }}"> Request {{ statusRequest }}</span>
+                        </h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">{% trans %}request.employee{% endtrans %}
+                                    {{ ' '~request.users.name~' '~request.users.lastName~' ('~request.users.workPositions.name~')' }}</h3>
+                            </div>
+                            {{ form_start(requestForm,{'attr': { 'enctype':'multipart/form-data','method':'post','name':'request-management' }}) }}
+                            {{ form_row(requestForm.id,{'label':'Code','attr': {'class': 'form-control form-control-sm'}}) }}
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(requestForm.statusRequest,{'label':'Status','attr': {'class': 'form-control form-control-sm select2'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(requestForm.typesRequest,{'label':'Reason','attr': {'class': 'form-control form-control-sm select2','disabled':'disabled'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(requestForm.requestPeriodStart,{'label':'Start Date','attr': {'class': 'form-control form-control-sm','readonly':'true'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(requestForm.requestPeriodEnd,{'label':'End Date','attr': {'class': 'form-control form-control-sm','readonly':'true'}}) }}                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            {{ form_row(requestForm.description,{'label':'Description','id':'descriptionDocument','attr': {'class': 'form-control form-control-sm','readonly':'true'}}) }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    {{ form_widget(requestForm.save,{'label':'Save','id':'addDocument', 'attr': {'class': 'btn btn-info'}}) }}
+                                    {{ form_widget(requestForm.annulled,{'label':'Cancel','attr': {'class': 'btn btn-default float-right','style':'display:none'}}) }}
+                                </div>
+                            </div>
+                            <div class="card card-secondary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Request Documents</h3>
+                                </div>
+
+                                <div class="card-body">
+                                    {% for document  in request.documents %}
+                                        <li><a target="_blank"
+                                               href="{{ app_documents_directory~document.name }}">{{ document.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {{ form_end(requestForm) }}
+                        </div>
+                        {% if is_granted('ROLE_COMPANY_HEAD') %}
+                            {% set organization = app.user.departments.name %}
+                        {% endif %}
+                        {% if is_granted('ROLE_COMPANY_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+                            {% set organization = app.user.companies.name %}
+                        {% endif %}
+
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Calendar {{ organization }}
+                                </h3>
+                            </div>
+
+                            <div class="card-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ request.users.availableDays }}</h3>
+                                <p>{% trans %}backend.days.available{% endtrans %}</p>
+                                <div class="icon">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                Pending Request {{ organization }}
+                            </div>
+                            <div class="card-body">
+                                {% for request in listRequest %}
+
+                                    {% if (request.statusRequest.name == "Pending") %}
+                                        <div class="callout callout-warning">
+                                            <p class="dark-blue">
+                                                {% trans %}request.employee{% endtrans %} {{ request.users.name }}
+                                            </p>
+                                            <span class="badge badge-warning">{{ request.statusRequest }}</span>
+                                            <h5>{{ request.requestPeriodStart|date("d-m-Y") }}
+                                                {% if( request.requestPeriodEnd|date("d-m-Y")) %}
+                                                    <i class="fas fa-xs fa-arrow-right"></i> {{ request.requestPeriodEnd|date("d-m-Y") }}
+                                                {% endif %}
+                                            </h5>
+                                            <a href="{{ path('edit_management_request', {requestId: request.id}) }}"
+                                               class="btn btn-xs btn-outline-dark">
+                                                <i class="fa fa-pencil"></i>
+                                                {{ request.description }}
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!--Add event modal-->
+    <div id="addNewRequest" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="float-leftl">
+                        <h4>New request</h4>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                        <span class="sr-only">close</span></button>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    <input type="hidden" name="startDateInput" id="startDateInput" value="">
+                    <input type="hidden" name="endDateInput" id="endDateInput" value="">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <span><b>From: </b></span>
+                                <span id="modal-start-date"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group float-right">
+                                <span><b>To: </b></span>
+                                <span id="modal-end-date"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="description" id="description" type="text" rows="4"
+                                  placeholder="Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script src="{{ absolute_url(asset('fullcalendar/main.js')) }}"></script>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                selectable: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                },
+                events: $.parseJSON('{{ events | raw }}'),
+                select: function (info) {
+                    $('#addNewRequest').modal('show');
+                    $('#addNewRequest').find('#modal-start-date').text(info.startStr);
+                    $('#addNewRequest').find('#modal-end-date').text(info.endStr);
+                    $('#startDateInput').val(info.startStr)
+                    $('#endDateInput').val(info.endStr)
+                }
+            });
+            $('#submitButton').on('click', function (e) {
+                e.preventDefault();
+                doSubmit();
+            })
+
+            function doSubmit() {
+                $('#addNewRequest').modal('hide');
+                calendar.addEvent({
+                    title: $('#description').val(),
+                    start: new Date($('#startDateInput').val()),
+                    end: new Date($('#endDateInput').val()),
+                    allDay: true
+                });
+            }
+
+            calendar.render();
+        });
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+{% block body %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Profile</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        {{ form_start(form) }}
+        <input type="hidden" id="userId" value="{{ user.id }}">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Personal Information</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.name{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.name }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.lastName{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.lastName }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                            {{ form_row(form.emailAddress,{'label':'Email','attr': {'class': 'form-control'}}) }}
+                                         {% else %}
+                                            {{ form_row(form.emailAddress,{'label':'Email','attr': {'class': 'form-control','readonly':'true'}}) }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.dni{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.dni }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.socialSecurityNumber{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.socialSecurityNumber }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.availableDays{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.availableDays }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.accumulatedDays{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.accumulatedDays }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.phoneNumber{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.phoneNumber }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.incorporationDate{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.incorporationDate|date('d-m-Y') }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.roles{% endtrans %}</b></label>
+                                        {% for roles in user.roles %}
+                                            <input type="text" class="form-control form-control-sm" value="{{ roles.name }}" disabled>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.workPositions{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.workPositions.name }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.departments{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.departments.name }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.streetName{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.streetName }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.number{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.number }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label><b>{% trans %}users.floor{% endtrans %}</b></label>
+                                        <input type="text" class="form-control form-control-sm" value="{{ user.floor }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {{ form_label(form.plain_password.first, null, {'label': 'New Password'}) }}
+                                        {{ form_widget(form.plain_password.first,{'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        {{ form_label(form.plain_password.second, null, {'label': 'Repeat New Password'}) }}
+                                        {{ form_widget(form.plain_password.second,{'attr': {'class': 'form-control'}}) }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {{ form_row(form.submit, {'label': 'Enviar', 'attr': {'class': 'btn btn-primary'}}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </section>
+</div>
+{% endblock %}

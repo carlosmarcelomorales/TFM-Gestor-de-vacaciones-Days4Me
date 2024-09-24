@@ -1,0 +1,28 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  TFM\HolidaysManagement\Mail\:
+    resource: '%kernel.project_dir%/src/Mail/{Application,Domain,Infrastructure}/'
+    exclude:
+      - '%kernel.project_dir%/src/Mail/Domain/Model/{Aggregate,ValueObject,Exception}'
+#  #
+#  #  mail.event_handlers:
+#  #    namespace: TFM\HolidaysManagement\Mail\Domain\Model\Event\Handler\
+#  #    resource: '%kernel.project_dir%/src/Mail/Domain/Model/Event/Handler/*.php'
+#  #    autoconfigure: false
+#  #    tags:
+#  #      - { name: messenger.message_handler, bus: event.bus }
+#
+#  mail.event_subscriber:
+#    namespace: TFM\HolidaysManagement\Mail\Infrastructure\Framework\EventSubscriber\
+#    resource: '%kernel.project_dir%/src/Mail/Infrastructure/Framework/EventSubscriber/*.php'
+#    autoconfigure: false
+#    tags:
+#      - { name: messenger.message_handler, bus: event.bus }
+
+  TFM\HolidaysManagement\Mail\Infrastructure\Service\SendWelcomeCompanyEmail:
+    arguments:
+      $senderEmail: '%app.name%'
+      $senderName: '%env(resolve:MAILER_SENDER)%'

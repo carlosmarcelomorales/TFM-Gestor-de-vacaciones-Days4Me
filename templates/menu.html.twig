@@ -1,0 +1,37 @@
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+        <a href="#" class="navbar-brand">
+            <img src="{{ absolute_url(asset('dist/logo.png')) }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8; width: 128px; height: 128px;">
+        </a>
+
+        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {{ knp_menu_render('main',{'currentClass': 'active', 'template': '@TFMHolidaysManagement/Menu/knp_menu.html.twig'}) }}
+                <span class="ml-auto">
+                    <span class="navbar-text">
+                        <a class="nav-link" href="{{ url('ui_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            {{ 'button.sign_out'|trans }}
+                        </a>
+                    </span>
+                </span>
+            {% else %}
+                <ul class="navbar-nav float-right">
+                    <li class="nav-item">
+                        <a href="{{ path('ui_login') }}" class="nav-link">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('ui_register') }}" class="nav-link">Register</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+
+    </div>
+</nav>

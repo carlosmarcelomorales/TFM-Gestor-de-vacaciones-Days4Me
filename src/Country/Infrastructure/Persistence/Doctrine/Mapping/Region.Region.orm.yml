@@ -1,0 +1,34 @@
+TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\Region:
+  type: entity
+  table: country_region
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 50
+      nullable: false
+      unique: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  manyToOne:
+    countries:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Country
+      inversedBy: regions
+      joinColumn:
+        name: country_id
+        referencedColumnName: uuid
+  oneToMany:
+    towns:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\Town\Town
+      mappedBy: regions
+      fetch: EXTRA_LAZY

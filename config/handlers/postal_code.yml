@@ -1,0 +1,23 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  postal_code.postal_code_repository:
+    class: TFM\HolidaysManagement\Country\Infrastructure\Repository\DoctrinePostalCodeRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+
+  postal_code.postal_code_postal_code_handler:
+    class: TFM\HolidaysManagement\Country\Application\PostalCode\GetPostalCode
+    arguments:
+      - "@postal_code.postal_code_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\PostalCode\GetPostalCodeRequest }
+
+  postal_code.postal_codes_handler:
+    class: TFM\HolidaysManagement\Country\Application\PostalCode\GetPostalCodes
+    arguments:
+      - "@postal_code.postal_code_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\PostalCode\GetPostalCodesRequest }

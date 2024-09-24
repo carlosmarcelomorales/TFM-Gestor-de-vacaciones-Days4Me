@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-group">
+            {{ form_row(Form.country, {'label': 'Country', 'attr': {'class': 'form-control select2', 'id': 'country_select'}}) }}
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="region_select">Region</label>
+            <select name="region" id="region_select" class="form-control select2">
+                {% if region is defined %}
+                    <option selected>{{ region }}</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="town_select">Town</label>
+            <select name="town" id="town_select" class="form-control select2">
+                {% if town is defined %}
+                    <option selected>{{ town }}</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="postal_code_select">Postal Code</label>
+            <select name="postal_code" id="postal_code_select" class="form-control select2">
+                {% if region is defined %}
+                <option selected>{{ postalCode }}</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+</div>
+

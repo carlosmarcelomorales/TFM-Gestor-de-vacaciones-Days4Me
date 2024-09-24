@@ -1,0 +1,13 @@
+{% extends 'base_logged.html.twig' %}
+
+{% block body_classes %}class="hold-transition skin-red sidebar-mini"{% endblock %}
+{% block title %}Admin{% endblock %}
+{% block body %}
+    <div class="wrapper" style="height: auto;">
+        {{ include('menu.html.twig') }}
+        {% block content %}{% endblock %}
+    </div>
+    zona administrador app
+{% endblock %}
+{% block footerscripts %}
+{% endblock %}

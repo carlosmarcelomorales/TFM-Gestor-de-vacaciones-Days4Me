@@ -1,0 +1,207 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    <div style="display:none;"></div>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Companies</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">{% trans %}company.new.company{% endtrans %}</h3>
+                            </div>
+                            {{ form_start(Form, {'attr': { 'enctype':'multipart/form-data','method':'post','name':'create_company_form' }}) }}
+                            {{ form_row(Form.id, {'label': 'Code', 'attr': {'class': 'form-control'}}) }}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            {{ form_row(Form.vat, {'label': 'Vat', 'attr': {'class': 'form-control','readonly':'true'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.name, {'label': 'Name', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                            {{ form_row(Form.description, {'label': 'Description', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.email, {'label': 'Email', 'attr': {'class': 'form-control', 'pattern': '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.web_site, {'label': 'Web Site', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            {{ form_row(Form.phone_number1, {'label': 'Phone Number 1', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            {{ form_row(Form.phone_number2, {'label': 'Phone Number 2', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group">
+                                            {{ form_row(Form.street_name, {'label': 'Street Name', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            {{ form_row(Form.number, {'label': 'Number', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            {{ form_row(Form.floor, {'label': 'Floor', 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if positionInfo is defined %}
+                                    {% include 'form_countries.html.twig' with {
+                                        'postalCode' : positionInfo.postalCode,
+                                        'town'       : positionInfo.town,
+                                        'region'     : positionInfo.region,
+                                        'country'    : positionInfo.country
+                                    } %}
+                                {% else %}
+                                    {% include 'form_countries.html.twig' %}
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-check">
+                                            {{ form_widget(Form.business_days) }}
+                                            {{ form_label(Form.business_days) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-check">
+                                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                                {{ form_widget(Form.blocked) }}
+                                                {{ form_label(Form.blocked, null,{'enabled':'true'}) }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                {{ form_widget(Form.submit, {'label': 'Save', 'attr': {'class': 'btn btn-primary'}}) }}
+                            </div>
+                            {{ form_end(Form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+        });
+    </script>
+
+    <script>
+        $(function () {
+
+            $("#{{ Form.country.vars.id }}").change(function () {
+                var countryId = $(this).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path("ui_ajax_territory_regions") }}',
+                    data: 'country_id='+ countryId,
+                    beforeSend: function () {
+                        $("#region_select").addClass("loader");
+                    },
+                    success: function (data) {
+                        $("#region_select").html(data)
+
+                        $("#region_select").change(function () {
+                            var regionId = $(this).val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: '{{ path("ui_ajax_territory_towns") }}',
+                                data: 'region_id='+ regionId,
+                                beforeSend: function () {
+                                    $("#region_select").addClass("loader");
+                                },
+                                success: function (data) {
+                                    $("#town_select").html(data)
+
+                                    $("#town_select").change(function () {
+                                        var town_id = $(this).val();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: '{{ path("ui_ajax_territory_postal_codes") }}',
+                                            data: 'town_id='+ town_id,
+                                            beforeSend: function () {
+                                                $("#postal_code_select").addClass("loader");
+                                            },
+                                            success: function (data) {
+                                                $("#postal_code_select").html(data)
+                                            }
+                                        })
+                                    });
+                                }
+                            })
+                        });
+
+                    }
+                })
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+

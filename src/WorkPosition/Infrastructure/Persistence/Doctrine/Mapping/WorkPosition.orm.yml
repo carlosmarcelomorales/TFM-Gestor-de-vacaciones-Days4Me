@@ -1,0 +1,33 @@
+TFM\HolidaysManagement\WorkPosition\Domain\Model\Aggregate\WorkPosition:
+  type: entity
+  table: work_position
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 100
+      nulable: false
+    headDepartment:
+      column: head_department
+      type: boolean
+      default: false
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+
+  manyToOne:
+    departments:
+      targetEntity: TFM\HolidaysManagement\Department\Domain\Model\Aggregate\Department
+      joinColumn:
+        name: department_id
+        referencedColumnName: uuid
+

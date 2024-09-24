@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkPlaces{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('select2') }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Workplaces</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">{% trans %}workPlace.new.workplace{% endtrans %}</h3>
+                            </div>
+                            {{ form_start(Form,{'attr': { 'enctype':'multipart/form-data','method':'post','name':'Form', 'id': 'Form', 'role': 'form' }}) }}
+                            {{ form_row(Form.id,{'label':'Code','attr': {'class': 'form-control form-control-sm'}}) }}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.companies,{'label':'Company Name','attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.name,{'label':'Name','attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.email,{'label':'Email address','attr': {'class': 'form-control', 'pattern': '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            {{ form_row(Form.description,{'label':'Description','attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.holidayStartYear,{'label':'Holiday Start','attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.holidayEndYear,{'label':'Holiday End','attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            {{ form_widget(Form.permitAccumulate) }}
+                                            {{ form_label(Form.permitAccumulate) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.monthPermittedToAccumulate,{'label':'Month permitted accumulated','attr': {'class': 'form-control form-control-sm select2'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.phoneNumber1,{'label':'Phone Number 1','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ form_row(Form.phoneNumber2,{'label':'Phone Number 2','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.streetName,{'label':'Street Name','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.number,{'label':'Number','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            {{ form_row(Form.floor,{'label':'Floor','attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-check">
+                                            {{ form_widget(Form.blocked) }}
+                                            {{ form_label(Form.blocked) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if positionInfo is defined %}
+                                    {% include 'form_countries.html.twig' with {
+                                        'postalCode' : positionInfo.postalCode,
+                                        'town'       : positionInfo.town,
+                                        'region'     : positionInfo.region,
+                                        'country'    : positionInfo.country
+
+                                    } %}
+                                {% else %}
+                                    {% include 'form_countries.html.twig' %}
+                                {% endif %}
+                                <div id="error_message"></div>
+                                <div class="card-footer">
+                                    {{ form_widget(Form.save,{'label':'Save','attr': {'class': 'btn btn-primary '}}) }}
+                                </div>
+                            </div>
+
+                            {{ form_end(Form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+        });
+    </script>
+
+    <script>
+        $("#{{ Form.permitAccumulate.vars.id }}").change(function () {
+            if ($("#{{ Form.permitAccumulate.vars.id }}").is(':checked') === true) {
+                $("#{{ Form.monthPermittedToAccumulate.vars.id }}").prop('disabled', false);
+                $("#{{ Form.monthPermittedToAccumulate.vars.id }}").prop('selectedIndex', 1);
+            }
+            if ($("#{{ Form.permitAccumulate.vars.id }}").is(':checked') === false) {
+                $("#{{ Form.monthPermittedToAccumulate.vars.id }}").prop('disabled', 'true');
+            }
+        });
+
+    </script>
+
+    <script>
+        $(function () {
+
+            $("#{{ Form.country.vars.id }}").change(function () {
+                var countryId = $(this).val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path("ui_ajax_territory_regions") }}',
+                    data: 'country_id='+ countryId,
+                    beforeSend: function () {
+                        $("#region_select").addClass("loader");
+                    },
+                    success: function (data) {
+                        $("#region_select").html(data)
+
+                        $("#region_select").change(function () {
+                            var regionId = $(this).val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: '{{ path("ui_ajax_territory_towns") }}',
+                                data: 'region_id='+ regionId,
+                                beforeSend: function () {
+                                    $("#region_select").addClass("loader");
+                                },
+                                success: function (data) {
+                                    $("#town_select").html(data)
+
+                                    $("#town_select").change(function () {
+                                        var town_id = $(this).val();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: '{{ path("ui_ajax_territory_postal_codes") }}',
+                                            data: 'town_id='+ town_id,
+                                            beforeSend: function () {
+                                                $("#postal_code_select").addClass("loader");
+                                            },
+                                            success: function (data) {
+                                                $("#postal_code_select").html(data)
+                                            }
+                                        })
+                                    });
+                                }
+                            })
+                        });
+
+                    }
+                })
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departments{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Departments</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-list"></i> {% trans %}department.list.department{% endtrans %}</h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_department') }}" class="btn btn-primary float-right"><i
+                                                class="fa fa-plus"></i>{% trans %}department.new.department{% endtrans %}</a>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <table id="table-departments" class="table table-bordered table-hover departmentsDataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans %}department.name{% endtrans %}</th>
+                                        <th>{% trans %}department.description{% endtrans %}</th>
+                                        <th>{% trans %}department.phoneNumber{% endtrans %}</th>
+                                        <th>{% trans %}department.phoneExtension{% endtrans %}</th>
+                                        <th>{% trans %}department.workplace{% endtrans %}</th>
+                                        <th>{% trans %}blocked{% endtrans %}</th>
+                                        <th>{% trans %}department.actions{% endtrans %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for department in departments %}
+                                        <tr>
+                                            <td>{{ department.name }}</td>
+                                            <td>{{ department.description }}</td>
+                                            <td>{{ department.phoneNumber }}</td>
+                                            <td>{{ department.phoneExtension }}</td>
+                                            <td>{{ department.workplace }}</td>
+                                            {% if (department.blocked  == 1) %}
+                                                <td>{% trans %}blocked{% endtrans %}</td>
+                                            {% else %}
+                                                <td>-</td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{{ path('edit_department', {departmentId: department.id}) }}" class="btn btn-xs btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                    Edit{#{ department.name }#}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.departmentsDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

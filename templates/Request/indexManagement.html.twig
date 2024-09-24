@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Request Management{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Requests Management</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3 class="card-title"><i
+                                            class="fa fa-list"></i> {% trans %}requestManagement.list.request{% endtrans %}
+                                </h3>
+                                <div class="card-tools">
+                                    <a href="{{ path('add_request') }}" class="btn btn-primary float-right"><i
+                                                class="fa fa-plus"></i>{% trans %}request.new.request{% endtrans %}</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table id="table-departments"
+                                       class="table table-bordered table-hover requestsDataTable">
+                                    <thead>
+                                    <tr>
+                                        {% if is_granted('ROLE_COMPANY_HEAD') or is_granted('ROLE_COMPANY_ADMIN') %}
+                                            <th>{% trans %}request.users{% endtrans %}</th>
+                                        {% endif %}
+                                        <th>{% trans %}request.statusRequest{% endtrans %}</th>
+                                        <th>{% trans %}request.typesRequest{% endtrans %}</th>
+                                        <th>{% trans %}request.description{% endtrans %}</th>
+                                        <th>{% trans %}request.requestPeriodStart{% endtrans %}</th>
+                                        <th>{% trans %}request.requestPeriodEnd{% endtrans %}</th>
+                                        <th>{% trans %}request.actions{% endtrans %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for request in requests %}
+
+                                        {% set statusRequest = request.statusRequest.name %}
+                                        {% set style="warning" %}
+                                        <tr>
+                                            {% if is_granted('ROLE_COMPANY_HEAD')  or is_granted('ROLE_COMPANY_ADMIN') %}
+                                                <td>{{ request.users.name }} {{ request.users.lastname }} </td>
+                                            {% endif %}
+                                            <td>
+                                                {% if (statusRequest == "Annulled") %}
+                                                    {% set style="info" %}
+                                                {% endif %}
+
+                                                {% if (statusRequest == "Pending") %}
+                                                    {% set style="warning" %}
+                                                {% endif %}
+
+                                                {% if (statusRequest =='Accepted') %}
+                                                    {% set style="success" %}
+                                                {% endif %}
+
+                                                {% if (statusRequest == "Declined") %}
+                                                    {% set style="danger" %}
+                                                {% endif %}
+
+                                                <span class="badge badge-{{ style }}">{{ statusRequest }}</span>
+
+                                            </td>
+                                            <td>{{ request.typesRequest }}</td>
+                                            <td>{{ request.description }}</td>
+                                            <td>{{ request.requestPeriodStart|date('d-m-Y') }}</td>
+                                            <td>{{ request.requestPeriodEnd|date('d-m-Y') }}</td>
+                                            <td>
+                                                <a href="{{ path('edit_management_request', {requestId: request.id}) }}"
+                                                   class="btn btn-xs btn-{{ style }}">
+                                                    <i class="fa fa-pencil"></i>
+                                                    {% trans %}button.change.status{% endtrans %}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('.requestsDataTable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+{% endblock %}

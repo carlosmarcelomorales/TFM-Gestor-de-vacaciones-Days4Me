@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="bin/.phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php" colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutChangesToGlobalState="true">
+
+    <testsuites>
+        <testsuite name="Project Days4Me">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- the value is the FQCN of the application kernel -->
+        <env name="KERNEL_CLASS" value="TFM\HolidaysManagement\Kernel"/>
+        <env name="DATABASE_URL" value="mysql://user:password@mysql:3306/holidays?serverVersion=5.7"/>
+    </php>
+</phpunit>

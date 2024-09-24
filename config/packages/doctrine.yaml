@@ -1,0 +1,83 @@
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+    types:
+      uuid: TFM\HolidaysManagement\Shared\Infrastructure\Persistence\Doctrine\Type\IdentUuidType
+    mapping_types:
+      uuid: uuid
+  orm:
+    auto_generate_proxy_classes: true
+    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    auto_mapping: false
+    mappings:
+      TFMHolidaysManagementDocumentDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Document/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Document\Domain\Model\Aggregate
+
+      TFMHolidaysManagementCountryDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Country/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Country\Domain\Model\Aggregate
+#
+      TFMHolidaysManagementDepartmentDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Department/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Department\Domain\Model\Aggregate
+#
+      TFMHolidaysManagementWorkPlaceDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/WorkPlace/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\WorkPlace\Domain\Model\Aggregate
+
+      TFMHolidaysManagementWorkPositionDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/WorkPosition/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\WorkPosition\Domain\Model\Aggregate
+
+      TFMHolidaysManagementHolidayDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Holiday/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Holiday\Domain\Model\Aggregate
+
+      TFMHolidaysManagementRequestDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Request/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Request\Domain\Model\Aggregate
+
+      TFMHolidaysManagementCompanyDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Company/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Company\Domain\Model\Aggregate
+
+      TFMHolidaysManagementUserDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/User/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\User\Domain\Model\Aggregate
+
+      TFMHolidaysManagementRoleDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/Role/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\Role\Domain\Model\Aggregate
+
+      TFMHolidaysManagementTypeRequestDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/TypeRequest/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\TypeRequest\Domain\Model\Aggregate
+
+      TFMHolidaysManagementStatusRequestDomainModelAggregate:
+        is_bundle: false
+        type: yml
+        dir: '%kernel.project_dir%/src/StatusRequest/Infrastructure/Persistence/Doctrine/Mapping'
+        prefix: TFM\HolidaysManagement\StatusRequest\Domain\Model\Aggregate

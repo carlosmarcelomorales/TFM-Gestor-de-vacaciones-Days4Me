@@ -1,0 +1,100 @@
+TFM\HolidaysManagement\WorkPlace\Domain\Model\Aggregate\WorkPlace:
+  type: entity
+  table: work_place
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 150
+      nullable: false
+    description:
+      column: description
+      type: string
+      length: 255
+      nullable: true
+    phoneNumber1:
+      column: phone_number1
+      type: string
+      length: 20
+      nullable: false
+    phoneNumber2:
+      column: phone_number2
+      type: string
+      length: 20
+      nullable: true
+    email:
+      column: email
+      type: string
+      length: 100
+      nullable: false
+    blocked:
+      column: blocked
+      type: boolean
+    permitAccumulate:
+      column: permit_accumulate
+      type: boolean
+    monthPermittedToAccumulate:
+      column: month_permitted_to_accumulate
+      type: integer
+      nullable: true
+      default: 0
+    holidayStartYear:
+      column: holiday_start_year
+      type: datetime_immutable
+      nullable: false
+    holidayEndYear:
+      column: holiday_end_year
+      type: datetime_immutable
+      nullable: false
+    streetName:
+      column: street_name
+      type: string
+      length: 100
+      nullable: false
+    number:
+      column: number
+      type: integer
+      nullable: true
+    floor:
+      column: floor
+      type: string
+      length: 20
+      nullable: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+    blockedOn:
+      column: blocked_on
+      type: datetime_immutable
+      nullable: true
+
+  manyToOne:
+    companies:
+      targetEntity: TFM\HolidaysManagement\Company\Domain\Model\Aggregate\Company
+      joinColumn:
+        name: company_id
+        referencedColumnName: uuid
+    postalCodes:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\PostalCode\PostalCode
+      joinColumn:
+        name: postal_code_id
+        referencedColumnName: uuid
+  oneToMany:
+    holidays:
+      targetEntity: TFM\HolidaysManagement\Holiday\Domain\Model\Aggregate\Holiday
+      mappedBy: workPlaces
+      fetch: EXTRA_LAZY
+
+
+
+
+

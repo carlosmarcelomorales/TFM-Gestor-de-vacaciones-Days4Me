@@ -1,0 +1,81 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  request.request_repository:
+    class: TFM\HolidaysManagement\Request\Infrastructure\Repository\RequestDoctrineRepository
+    arguments:
+      - "@doctrine.orm.default_entity_manager"
+
+  request.add_request_handler:
+    class: TFM\HolidaysManagement\Request\Application\Create\CreateRequest
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Create\CreateRequestRequest }
+
+  request.find_request_handler:
+    class: TFM\HolidaysManagement\Request\Application\Find\FindRequest
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Find\FindRequestRequest }
+
+  request.update_request_handler:
+    class: TFM\HolidaysManagement\Request\Application\Update\UpdateRequest
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Update\UpdateRequestRequest }
+
+  request.get_requests_handler:
+    class: TFM\HolidaysManagement\Request\Application\Get\GetRequests
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Get\GetRequestsRequest }
+
+  request.list_requests_handler:
+    class: TFM\HolidaysManagement\Request\Application\Get\GetRequestByUser
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Get\GetRequestByUserRequest }
+
+  request.get_events_calendar:
+    class: TFM\HolidaysManagement\Request\Application\Get\GetEventsCalendar
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Get\GetEventsCalendarRequest }
+
+  request.get_requests_by_multiple_users:
+    class: TFM\HolidaysManagement\Request\Application\Get\GetRequestsByMultipleUsers
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Get\GetRequestsByMultipleUsersRequest }
+
+  request.get_json_format_request_handler:
+    class: TFM\HolidaysManagement\Request\Application\Api\GetApiRequests
+    arguments:
+      - '@request.request_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Api\GetApiRequestsRequest }
+
+  request.update_managament_request_handler:
+    class: TFM\HolidaysManagement\Request\Application\Update\UpdateStatusRequest
+    arguments:
+      - "@request.request_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Update\UpdateStatusRequestRequest }
+
+
+
+  request.calculate_request_by_status:
+    class: TFM\HolidaysManagement\Request\Application\Calculate\CalculateRequestsByStatus
+    arguments:
+      - '@request.request_repository'
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Request\Application\Calculate\CalculateRequestsByStatusRequest }

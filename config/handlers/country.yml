@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  country.country_repository:
+    class: TFM\HolidaysManagement\Country\Infrastructure\Repository\DoctrineCountryRepository
+    arguments:
+      - "@doctrine.orm.entity_manager"
+
+  country.country_handler:
+    class: TFM\HolidaysManagement\Country\Application\Country\GetCountry
+    arguments:
+      - "@country.country_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Country\GetCountryRequest }
+
+  country.countries_handler:
+    class: TFM\HolidaysManagement\Country\Application\Country\GetCountries
+    arguments:
+      - "@country.country_repository"
+    tags:
+      - { name: tactician.handler, command: TFM\HolidaysManagement\Country\Application\Country\GetCountriesRequest }
+
+
+

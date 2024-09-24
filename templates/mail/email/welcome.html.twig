@@ -1,0 +1,14 @@
+{% extends 'mail/email/base.html.twig' %}
+
+{% block body %}
+    <h2 class="text-center">{% trans %}email.company.welcome.subject{% endtrans %}</h2>
+    <p>{% trans %}email.hello{% endtrans %} {{ emailUser }}</p>
+    <p>{% trans %}email.company.content{% endtrans %}</p>
+
+    <center>
+        <a href="{{ url('ui_login') }}">Link</a>
+    </center>
+
+    <p>{% trans %}email.regards{% endtrans %}</p>
+    <p>{% trans %}email.team{% endtrans %}</p>
+{% endblock %}

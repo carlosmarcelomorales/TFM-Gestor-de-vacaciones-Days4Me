@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Holidays Management!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ absolute_url(asset('plugins/fontawesome-free/css/all.min.css')) }}">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ absolute_url(asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')) }}">
+    <link rel="stylesheet"
+          href="{{ absolute_url(asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')) }}">
+
+    <!-- fullCalendar -->
+    <link href='{{ absolute_url(asset('fullcalendar/main.css')) }}' rel='stylesheet' />
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ absolute_url(asset('plugins/select2/css/select2.min.css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.css')) }}">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ absolute_url(asset('dist/css/adminlte.min.css')) }}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    {% include 'menu.html.twig' %}
+
+    <div class="message">
+        {% for message in app.session.flashbag.get('ok') %}
+            <p class="success">{{ message }}</p>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('warning') %}
+            <p class="warning">{{ message }}</p>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('error') %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+
+    </div>
+    {% block body %}{% endblock %}
+</div>
+
+<!-- jQuery -->
+<script src="{{ absolute_url(asset('plugins/jquery/jquery.min.js')) }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ absolute_url(asset('plugins/jquery-ui/jquery-ui.min.js')) }}"></script>
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+
+<!-- AdminLTE App -->
+<script src="{{ absolute_url(asset('dist/js/adminlte.js')) }}"></script>
+
+<!-- Bootstrap 4 -->
+<script src="{{ absolute_url(asset('plugins/bootstrap/js/bootstrap.bundle.min.js')) }}"></script>
+<!-- DataTables -->
+<script src="{{ absolute_url(asset('plugins/datatables/jquery.dataTables.min.js')) }}"></script>
+<script src="{{ absolute_url(asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')) }}"></script>
+<script src="{{ absolute_url(asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')) }}"></script>
+<script src="{{ absolute_url(asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')) }}"></script>
+
+<!-- Select2 -->
+<script src="{{ absolute_url(asset('plugins/select2/js/select2.full.min.js')) }}"></script>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

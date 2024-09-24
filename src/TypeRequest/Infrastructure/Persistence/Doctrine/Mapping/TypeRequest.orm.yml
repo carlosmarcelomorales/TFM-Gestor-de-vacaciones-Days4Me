@@ -1,0 +1,30 @@
+TFM\HolidaysManagement\TypeRequest\Domain\Model\Aggregate\TypeRequest:
+  type: entity
+  table: type_request
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 100
+      nulable: false
+      unique: true
+    discountDays:
+      column: discount_days
+      default: false
+      type: boolean
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  oneToMany:
+    requests:
+      targetEntity: TFM\HolidaysManagement\Request\Domain\Model\Aggregate\Request
+      mappedBy: typesRequest

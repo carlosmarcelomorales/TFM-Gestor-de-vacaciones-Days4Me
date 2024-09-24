@@ -1,0 +1,26 @@
+TFM\HolidaysManagement\StatusRequest\Domain\Model\Aggregate\StatusRequest:
+  type: entity
+  table: status_request
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    name:
+      column: name
+      type: string
+      length: 255
+      nullable: false
+      unique: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  oneToMany:
+    requests:
+      targetEntity: TFM\HolidaysManagement\Request\Domain\Model\Aggregate\Request
+      mappedBy: statusRequest

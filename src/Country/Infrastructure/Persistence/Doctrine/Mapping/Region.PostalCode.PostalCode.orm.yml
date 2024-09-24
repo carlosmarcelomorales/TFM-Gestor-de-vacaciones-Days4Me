@@ -1,0 +1,26 @@
+TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\PostalCode\PostalCode:
+  type: entity
+  table: country_region_town_postal_code
+  id:
+    id:
+      column: uuid
+      type: uuid
+  fields:
+    value:
+      column: value
+      type: string
+      length: 8
+      nullable: false
+      unique: true
+    createdOn:
+      column: created_on
+      type: datetime_immutable
+      nullable: false
+    updatedOn:
+      column: updated_on
+      type: datetime_immutable
+      nullable: true
+  manyToMany:
+    towns:
+      targetEntity: TFM\HolidaysManagement\Country\Domain\Model\Aggregate\Region\Town\Town
+      mappedBy: postalCodes
